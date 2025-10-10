@@ -1,0 +1,7 @@
+
+sudo apt install python3-matplotlib
+sudo apt install python3-netcdf4
+sudo apt install python3-cartopy
+sudo apt install python3-gdal
+sudo apt install python3-pyorbital
+sudo apt install python3-hdf4 # Incerto. Proporciona pyhdf?

@@ -1,0 +1,5 @@
+# Diretório do Fazzt, onde estão os arquivos recebidos pela antena
+input: 'input/'
+
+# Diretório de visualização, onde estão os arquivos HTML com as imagens produzidas
+output: 'output/'
