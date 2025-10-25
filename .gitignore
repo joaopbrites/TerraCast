@@ -1,0 +1,63 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Testing / coverage
+.pytest_cache/
+coverage.xml
+.coverage
+htmlcov/
+
+# MyPy / Pyright caches
+.mypy_cache/
+.pyright/
+
+# Logs
+Logs/
+*.log
+
+# Local environment variables / secrets
+.env
+.env.*
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+.cache/
+tmp/
+temp/
+
+# Compiled extensions
+*.so
+
+# SQLite DBs
+*.sqlite3
+
+# Node / frontend artifacts (if any appear)
+node_modules/
+npm-debug.log*
+
+# End of file
