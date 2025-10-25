@@ -1,0 +1,5 @@
+matplotlib>=3.7.0
+netCDF4>=1.6.0
+pyorbital>=1.8.0
+pyhdf>=0.10.0
+PyYAML>=6.0.0

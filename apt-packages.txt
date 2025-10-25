@@ -1,0 +1,4 @@
+python3-gdal
+python3-cartopy
+libnetcdf-dev
+libhdf5-dev
