@@ -22,28 +22,14 @@ __status__ = "Production"
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
 import sched, time                    # Scheduler library
-import os, sys                        # Miscellaneous operating system interfaces   
+import os, sys   # Miscellaneous operating system interfaces
+from pathlib import   Path
 from os.path import dirname, abspath  # Return a normalized absolutized version of the pathname path 
 import datetime                       # Basic date and time types   
-import platform                       # To check which OS is being used
 import yaml                           # Para ler o arquivo de configuração
-#--------------------------------------------------------------------------------------------------
-# Configuration default values --------------------------------------------------------------------
-# If you want to change, do not change here. Change at 'showcast.yml'.
-VERBOSE = True
-ingest_dir = 'dados/'
-vis_dir = 'output/'
-SINGLE_PRODUCT_NAME = 'g16_band01_fdk' # for debug: process only this product
-# Read configuration from file --------------------------------------------------------------------
-print("\nSHOWCast started.")
-with open('showcast.yml', 'r') as arqConfig:
-    CONFIG = yaml.safe_load(arqConfig)
-CONFIG['srcDir'] = dirname(abspath(__file__)) + '/'
-
-if VERBOSE:
-    print('Configuration:')
-    for item in CONFIG:
-        print('    ', item, ': ', CONFIG[item], sep='')
+from Logs import setup_logger
+import logging
+import ProductsConfig as PC
 
 # SHOWCast process number
 #showcast_process = sys.argv[1]
@@ -62,7 +48,7 @@ if VERBOSE:
 #os.environ['QT_PLUGIN_PATH'] = python_env + "Library/plugins/"
 
 # Interval in seconds
-seconds = 1
+#seconds = 1
 
 # Call the function for the first time without the interval
 #print("\n------------- Calling Monitor Script --------------")
@@ -70,34 +56,64 @@ seconds = 1
 #script = 'python ' + showcast_dir + '/Scripts/showcast_config.py' + ' ' + python_env + ' ' + ingest_dir + ' ' + showcast_process + ' ' + vis_dir
 #if VERBOSE:
 #    print("Will run: ", script)
-import config
 
-# Create list of products to process
-productList = config.Products(CONFIG)
-numberOfProds = 0
-singleProduct = None
-for product in productList:
-    if product['enabled']:
-        numberOfProds += 1
-    if SINGLE_PRODUCT_NAME and product['name'] != SINGLE_PRODUCT_NAME:
-        product['enabled'] = False
-    if product['name'] == SINGLE_PRODUCT_NAME:
-        singleProduct = product
-print(numberOfProds, 'products to be generated.')
-if SINGLE_PRODUCT_NAME:
-    print('Will process only "', singleProduct['name'], '".', sep='')
-for product in productList:
-    if product['enabled']:
-        config.ProcessProduct(CONFIG, product)
+
+
+def main():
+    setup_logger()
+    log = logging.getLogger(f"processment.{__name__}")
+    #--------------------------------------------------------------------------------------------------
+    # Configuration default values --------------------------------------------------------------------
+    # If you want to change, do not change here. Change at 'showcast.yml'.
     
-#os.system(script)
-#print("------------- Monitor Script Executed -------------")
-#print("Waiting for next call. The interval is", seconds, "seconds.")
-#------------------------------------------------------------------------------------------------------
-sys.exit()
+    VERBOSE = True
+    ingest_dir:Path = Path('dados/')
+    vis_dir:Path = Path('output/')
+    #SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
+    SINGLE_PRODUCT_NAME = None # for debug: process only this product
+    # Read configuration from file --------------------------------------------------------------------
+    print("\nSHOWCast started.")
+    with open('showcast.yml', 'r') as arqConfig:
+        CONFIG:dict = yaml.safe_load(arqConfig)
+    CONFIG['srcDir'] = Path.cwd()
+    
+    if VERBOSE:
+        print('Configuration:')
+        for item in CONFIG:
+            print('    ', item, ': ', CONFIG[item], sep='')
+
+    # Create list of products to process
+    
+    
+    productList:list[dict] = PC.products(CONFIG)
+    numberOfProds:int = 0
+    singleProduct:dict = None
+    for product in productList:
+        if product['enabled']:
+            numberOfProds += 1
+        if SINGLE_PRODUCT_NAME and product['name'] != SINGLE_PRODUCT_NAME:
+            product['enabled'] = False
+        if product['name'] == SINGLE_PRODUCT_NAME:
+            singleProduct = product
+    print(numberOfProds, 'products to be generated.')
+    if SINGLE_PRODUCT_NAME:
+        log.debug("Modo debug ativo")
+        print('Will process only "', singleProduct['name'], '".', sep='')
+    for product in productList:
+        if product['enabled']:
+            PC.process_product(CONFIG, product)
+
+    #os.system(script)
+    #print("------------- Monitor Script Executed -------------")
+    #print("Waiting for next call. The interval is", seconds, "seconds.")
+    #------------------------------------------------------------------------------------------------------
+    sys.exit()
+    
+if __name__ == "__main__":
+    main()
 #------------------------------------------------------------------------------------------------------	
 # Scheduler function
-s = sched.scheduler(time.time, time.sleep)
+"""s = sched.scheduler(time.time, time.sleep)
 
 def call_monitor(sc): 
     print("\n")
@@ -112,6 +128,7 @@ def call_monitor(sc):
 # Call the monitor
 s.enter(seconds, 1, call_monitor, (s,))
 s.run()
+"""
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
 

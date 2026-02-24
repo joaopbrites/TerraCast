@@ -41,19 +41,19 @@ def update(satellite, product, nfiles, outdir, vis_dir):
     out_dir = vis_dir
     
     if not os.path.exists(out_dir):
-        os.mkdir(out_dir)
+        os.makedirs(out_dir)
     
     # Create the satellite output directory if it doesn't exist
     out_dir = vis_dir + satellite
     
     if not os.path.exists(out_dir):
-        os.mkdir(out_dir)
+        os.makedirs(out_dir)
 
     # Create the product output directory if it doesn't exist
     out_dir = vis_dir + satellite + '/' + product + '/'
     
     if not os.path.exists(out_dir):
-        os.mkdir(out_dir)
+        os.makedirs(out_dir)
         
     # Read all the file names in the Output dir as a list
     files = []

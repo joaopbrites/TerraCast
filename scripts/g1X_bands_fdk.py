@@ -46,11 +46,14 @@ from os.path import dirname, abspath                         # Return a normaliz
 from html_update import update                               # Update the HTML animation 
 import h5py
 import warnings
+import logging
 warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 
 def run(CONFIG, product):
+    log = logging.getLogger(f"processment.{__name__}")
+    log.info(f'Processing {product['name']}')
     # Start the time counter
     print('Script started:', product['script'])
     print('Product:', product)
@@ -101,6 +104,7 @@ def run(CONFIG, product):
 
     # Add "FDK" to the product name to identify that is a full disk product
     productName = productName + "_FDK"
+    log.debug(f"productName a ser gerado {productName}")
     print('productName:', productName)
 
     # Desired resolution
@@ -302,7 +306,7 @@ def run(CONFIG, product):
     # Create the satellite output directory if it doesn't exist
     out_dir = product['output'] + satellite
     if not os.path.exists(out_dir):
-       os.mkdir(out_dir)
+       os.makedirs(out_dir)
 
     # Create the product output directory if it doesn't exist
     out_dir = product['output'] + satellite + '/' + productName + '/'
@@ -334,7 +338,7 @@ def run(CONFIG, product):
     with open(main_dir + '/Logs/gnc_log_' + str(datetime.now())[0:10] + '.txt', 'a') as log:
      log.write(str(datetime.now()))
      log.write('\n')
-     log.write(path + '\n')
+     #log.write(path + '\n')
      log.write('\n')
     #---------------------------------------------------------------------------------------------
     #---------------------------------------------------------------------------------------------
