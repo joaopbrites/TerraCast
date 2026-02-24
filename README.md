@@ -6,8 +6,7 @@ TerraCast é um fork de [SHOWCast](https://github.com/diegormsouza/showcast).
 
 ## Estrutura do Projeto
 
-```
-TerraCast/
+```TerraCast/
 ├── terracast.py          # Entry point principal
 ├── showcast.yml          # Configuração
 ├── setup/                # Arquivos de instalação
@@ -49,7 +48,7 @@ python3 -m venv --system-site-packages venv
 source venv/bin/activate
 ```
 
-2. Instale os pacotes Python:
+1. Instale os pacotes Python:
 
 ```bash
 pip install --upgrade pip
@@ -70,4 +69,3 @@ python -c "import matplotlib, netCDF4, cartopy, pyorbital, pyhdf; print('✅ Dep
 source venv/bin/activate
 python terracast.py
 ```
-
