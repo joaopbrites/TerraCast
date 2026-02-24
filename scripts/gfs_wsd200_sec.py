@@ -40,7 +40,7 @@ import sys                                                   # Import the "syste
 import math                                                  # Import math
 import os                                                    # Miscellaneous operating system interfaces
 from os.path import dirname, abspath                         # Return a normalized absolutized version of the pathname path 
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 import warnings                                              # Warning control
 warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------

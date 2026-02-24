@@ -36,7 +36,7 @@ import time as t                                             # Time access and c
 import gzip, shutil                                          # Support for gzip files
 from datetime import datetime, timedelta                     # Library to convert julian day to dd-mm-yyyy
 from shutil import move                                      # High-level file operations
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 import folium
 from folium import plugins
 from folium.plugins import Draw

@@ -27,9 +27,9 @@ from pathlib import   Path
 from os.path import dirname, abspath  # Return a normalized absolutized version of the pathname path 
 import datetime                       # Basic date and time types   
 import yaml                           # Para ler o arquivo de configuração
-from Logs import setup_logger
+from logs import setup_logger
 import logging
-import ProductsConfig as PC
+import products as PC
 
 # SHOWCast process number
 #showcast_process = sys.argv[1]

@@ -41,7 +41,7 @@ import math                                                  # Import math
 from matplotlib.image import imread                          # Read an image from a file into an array
 import os                                                    # Miscellaneous operating system interfaces
 from os.path import dirname, abspath                         # Return a normalized absolutized version of the pathname path 
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 import warnings                                              # Warning control
 warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------

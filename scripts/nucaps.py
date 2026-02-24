@@ -45,7 +45,7 @@ from scipy.interpolate import interp2d
 import matplotlib.patches as mpatches
 import sys                                                
 import warnings
-from html_update import update                               
+from utils.html_update import update                               
 warnings.filterwarnings("ignore")     
              
 # SHOWCast directory:

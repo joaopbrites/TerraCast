@@ -41,7 +41,7 @@ from datetime import datetime, timedelta                     # Library to conver
 from netCDF4 import Dataset                                  # Read / Write NetCDF4 files
 from matplotlib.image import imread                          # Read an image from a file into an array
 from cartopy.feature.nightshade import Nightshade            # Draws a polygon where there is no sunlight for the given datetime.
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes # Add a child inset axes to this existing axes.
 # Ignore possible warnings
 import warnings

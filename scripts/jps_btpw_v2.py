@@ -37,7 +37,7 @@ import matplotlib.pyplot as plt                              # Plotting library
 import time as t                                             # Time access and conversion
 from matplotlib.image import imread                          # Read an image from a file into an array
 from cartopy.feature.nightshade import Nightshade            # Draws a polygon where there is no sunlight for the given datetime.
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes # Add a child inset axes to this existing axes.
 from osgeo import gdal, osr, ogr                             # Import GDAL
 from pyhdf.SD import SD, SDC                                 # Import the HDF library

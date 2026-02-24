@@ -29,7 +29,7 @@ matplotlib.use('Agg')
 from netCDF4 import Dataset                                  # Read / Write NetCDF4 files
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes # Add a child inset axes to this existing axes.
 from datetime import datetime, timedelta                     # Library to convert julian day to dd-mm-yyyy
-from cpt_convert import loadCPT                              # Import the CPT convert function
+from utils.cpt_convert import loadCPT                              # Import the CPT convert function
 from matplotlib.colors import LinearSegmentedColormap        # Linear interpolation for color maps
 import matplotlib.pyplot as plt                              # Plotting library
 import matplotlib.colors                                     # Matplotlib colors
@@ -42,7 +42,7 @@ from osgeo import gdal, osr, ogr                             # Import GDAL
 import os                                                    # Miscellaneous operating system interfaces
 from os.path import dirname, abspath                         # Return a normalized absolutized version of the pathname path 
 import sys                                                   # Import the "system specific parameters and functions" module
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 from glob import glob                                        # Unix style pathname pattern expansion
 import pyproj                                                # Python interface to PROJ (cartographic projections and coordinate transformations library)
 import math                                                  # Mathematical functions

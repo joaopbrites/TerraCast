@@ -42,7 +42,7 @@ import os 												     # Miscellaneous operating system interfaces
 from os.path import dirname, abspath                         # Return a normalized absolutized version of the pathname path 
 import platform                                              # To check which OS is being used
 import math                                                  # Import math
-from html_update import update                               # Update the HTML animation 
+from utils.html_update import update                               # Update the HTML animation 
 import warnings
 warnings.filterwarnings("ignore")
 #------------------------------------------------------------------------------------------------------
