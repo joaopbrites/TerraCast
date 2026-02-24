@@ -27,7 +27,8 @@ htmlcov/
 .pyright/
 
 # Logs
-Logs/*.txt
+logs/files/
+logs/*.log
 *.log
 
 # Local environment variables / secrets
@@ -69,10 +70,8 @@ Testes/
 
 # ========== LOGS ==========
 # All log files
-/Logs/files/*.txt
-Logs/*.log
-**/Logs/*.txt
-**/Logs/*.log
+logs/files/*.txt
+logs/files/*.log
 
 # ========== TEMPORARY FILES ==========
 # Temporary download directory
@@ -168,5 +167,4 @@ venv.bak/
 *.rar
 *.7z
 
-**/arquivos_antigos/
-arquivos_antigos/
+# Legacy files tracked in _legacy/
