@@ -7,18 +7,18 @@ TerraCast é um fork de [SHOWCast](https://github.com/diegormsouza/showcast).
 ## Estrutura do Projeto
 
 ```TerraCast/
-├── terracast.py          # Entry point principal
-├── showcast.yml          # Configuração
-├── setup/                # Arquivos de instalação
-│   ├── apt-packages.txt
-│   ├── debian-packages.txt
+├── terracast.py                  # Entry point principal
+├── showcast.yml                  # Configuração
+├── setup/                        # Arquivos de instalação
+│   ├── install.sh                # Script pra instalação e remoção do programa
+│   ├── terracast.service.exemple # Arquivo de exemplo para copiar para a pasta systemd
 │   └── requirements.txt
-├── utils/                # Bibliotecas compartilhadas
-├── plugins/              # Funcionalidades standalone
-├── products/             # Configuração de produtos
-├── scripts/              # Scripts de processamento
-├── logs/                 # Sistema de logging
-├── assets/               # Recursos visuais
+├── utils/                        # Bibliotecas compartilhadas
+├── plugins/                      # Funcionalidades standalone
+├── products/                     # Configuração de produtos
+├── scripts/                      # Scripts de processamento
+├── logs/                         # Sistema de logging
+├── assets/                       # Recursos visuais
 │   ├── colortables/
 │   ├── legends/
 │   ├── logos/
@@ -28,44 +28,22 @@ TerraCast é um fork de [SHOWCast](https://github.com/diegormsouza/showcast).
 
 ## Instalação
 
-### Dependências do sistema
+### Instalação Simples
 
-Instale as bibliotecas necessárias do sistema (Debian/Ubuntu):
+``` #Dentro do diretorio raiz rode
 
-```bash
-sudo apt update
-sudo apt install -y $(cat setup/apt-packages.txt)
+    cd setup/
+    bash install.sh
+
 ```
-
-Para outras distribuições Linux, consulte `setup/apt-packages.txt` e instale os equivalentes usando o gerenciador de pacotes apropriado.
-
-### Dependências Python
-
-1. Crie e ative um ambiente virtual:
-
-```bash
-python3 -m venv --system-site-packages venv
-source venv/bin/activate
-```
-
-1. Instale os pacotes Python:
-
-```bash
-pip install --upgrade pip
-pip install -r setup/requirements.txt
-```
-
-### Verificação
-
-Para verificar se todas as dependências foram instaladas corretamente:
-
-```bash
-python -c "import matplotlib, netCDF4, cartopy, pyorbital, pyhdf; print('✅ Dependências instaladas com sucesso')"
-```
+O arquivo install.sh também permite parametro como:
+    -d, --daemon    #Instala o serviço systemd
+    -p, --path      #Diretório para o ambiente virtual
+    -h, --help      #Mostra esta mensagem de ajuda
 
 ## Uso
 
 ```bash
-source venv/bin/activate
+source .Vemv_terracast/bin/activate
 python terracast.py
 ```
