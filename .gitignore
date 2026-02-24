@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # Virtual environments
+Venv/
 venv/
 .venv/
 env/
@@ -26,7 +27,7 @@ htmlcov/
 .pyright/
 
 # Logs
-Logs/
+Logs/*.txt
 *.log
 
 # Local environment variables / secrets
@@ -53,11 +54,119 @@ temp/
 # Compiled extensions
 *.so
 
-# SQLite DBs
-*.sqlite3
 
-# Node / frontend artifacts (if any appear)
-node_modules/
-npm-debug.log*
+# Working documents / planning (não commitar)
+.work/
+.planning/
+_work/
+_planning/
 
-# End of file
+#Arquivos de teste gerados para novas modificações
+Testes/
+
+# Output images and processed data
+**/Output/
+
+# ========== LOGS ==========
+# All log files
+/Logs/files/*.txt
+Logs/*.log
+**/Logs/*.txt
+**/Logs/*.log
+
+# ========== TEMPORARY FILES ==========
+# Temporary download directory
+**/tmp/
+**/temp/
+*.tmp
+
+# ========== PYTHON ==========
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Linux
+.directory
+.Trash-*
+
+# ========== SCIENTIFIC DATA FILES ==========
+# NetCDF files (can be large)
+*.nc
+*.nc4
+
+# GRIB files
+*.grb
+*.grb2
+*.grib
+*.grib2
+
+# HDF files
+*.hdf
+*.h5
+*.hdf5
+
+# ========== IMAGE FILES (Optional - comment out if you want to track them) ==========
+# Uncomment if you don't want to track generated images
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.bmp
+# *.tiff
+
+# ========== ARCHIVES & COMPRESSED ==========
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+**/arquivos_antigos/
+arquivos_antigos/

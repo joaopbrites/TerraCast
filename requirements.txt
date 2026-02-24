@@ -3,3 +3,5 @@ netCDF4>=1.6.0
 pyorbital>=1.8.0
 pyhdf>=0.10.0
 PyYAML>=6.0.0
+h5py>=3.13.0
+GDAL==3.10.3

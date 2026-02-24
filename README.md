@@ -42,18 +42,3 @@ Para verificar se todas as dependências foram instaladas corretamente:
 python -c "import matplotlib, netCDF4, cartopy, pyorbital, pyhdf; print('✅ Dependências instaladas com sucesso')"
 ```
 
-
-## Recomendações para nomeação de commits
-1. **Use hífen (-) para separar palavras** na descrição
-   - ✅ `feat: adicionar-processamento-goes-18`
-   - ❌ `feat: adiciona_processamento_goes_18`
-   - ❌ `feat: adiciona processamento goes 18`
-
-2. **Descrição em minúsculas** (exceto nomes próprios ou siglas)
-   - ✅ `fix: corrige-ler-arquivo-netCDF`
-   - ❌ `Fix: Corrige Leitura Arquivo NetCDF`
-
-3. **Use infinitivo verbal**
-   - ✅ `feat: adicionar-suporte-goes-18`
-   - ❌ `feat: adicionado-suporte-goes-18`
-   - ❌ `feat: adicionando-suporte-goes-18`

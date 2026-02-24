@@ -5,3 +5,4 @@ sudo apt install python3-cartopy
 sudo apt install python3-gdal
 sudo apt install python3-pyorbital
 sudo apt install python3-hdf4 # Incerto. Proporciona pyhdf?
+pip install pymal
