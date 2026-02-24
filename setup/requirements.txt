@@ -1,7 +1,27 @@
-matplotlib>=3.7.0
-netCDF4>=1.6.0
-pyorbital>=1.8.0
-pyhdf>=0.10.0
-PyYAML>=6.0.0
-h5py>=3.13.0
-GDAL==3.10.3
+# TerraCast - Requirements
+# Formato: seções apt: e pip: com pacotes prefixados por -
+
+apt:
+    - libnetcdf-dev
+    - libhdf5-dev
+    - libhdf4-dev
+    - gdal
+    - libgdal-dev
+    - libgeos-dev
+    - libproj-dev
+
+pip:
+    - numpy
+    - matplotlib
+    - cartopy
+    - netCDF4
+    - h5py
+    - pyorbital
+    - GDAL
+    - pyresample
+    - satpy
+    - pyyaml
+    - watchdog
+    - pyproj
+    - shapely
+    - pillow

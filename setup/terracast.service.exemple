@@ -1,0 +1,14 @@
+[Unit]
+Description=TerraCast - Satellite Image Processing Service
+After=network.target
+
+[Service]
+Type=simple
+User=%USER%
+WorkingDirectory=%PROJECT_DIR%
+ExecStart=%VENV_DIR%/bin/python %PROJECT_DIR%/terracast.py
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

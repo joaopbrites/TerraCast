@@ -120,6 +120,7 @@ MANIFEST
 # Environments
 .env
 .venv
+.Venv_terracast
 env/
 venv/
 ENV/
