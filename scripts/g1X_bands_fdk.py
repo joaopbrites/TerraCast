@@ -47,20 +47,21 @@ from utils.html_update import update                               # Update the 
 import h5py
 import warnings
 import logging
+from pathlib import Path
 warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 
 def run(CONFIG, product):
+    # configuração do logger
     log = logging.getLogger(f"processment.{__name__}")
-    log.info(f'Processing {product['name']}')
-    # Start the time counter
-    print('Script started:', product['script'])
-    print('Product:', product)
-    start = t.time()  
+    log.info(f'Processing {product['name']}, with {product['script']}')
 
-    # SHOWCast directory:
-    main_dir = dirname(dirname(abspath(__file__)))
+    # Start the time counter
+    start:float = t.time()  
+
+    # Encontra o caminho dos recursos necessários para o script
+    main_dir:Path = Path(__file__).parent.parent.resolve() / "assets"
 
     # Image path
     #path = (sys.argv[1])
@@ -105,7 +106,6 @@ def run(CONFIG, product):
     # Add "FDK" to the product name to identify that is a full disk product
     productName = productName + "_FDK"
     log.debug(f"productName a ser gerado {productName}")
-    print('productName:', productName)
 
     # Desired resolution
     #resolution = int(sys.argv[6])
@@ -145,14 +145,14 @@ def run(CONFIG, product):
 
     if int(band) <= 6:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + '/Colortables/Square Root Visible Enhancement.cpt')
+        cpt = loadCPT(main_dir / 'colortables/Square Root Visible Enhancement.cpt')
         cmap = LinearSegmentedColormap('cpt', cpt)
         vmin = 0.0
         vmax = 1.0
         thick_interval = 0.1
     elif int(band) == 7:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + '/Colortables/SVGAIR2_TEMP.cpt')
+        cpt = loadCPT(main_dir / 'colortables/SVGAIR2_TEMP.cpt')
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15
         vmin = -112.15
@@ -160,7 +160,7 @@ def run(CONFIG, product):
         thick_interval = 10.0
     elif int(band) > 7 and int(band) < 11:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + '/Colortables/SVGAWVX_TEMP.cpt')
+        cpt = loadCPT(main_dir / 'colortables/SVGAWVX_TEMP.cpt')
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15
         vmin = -112.15
@@ -168,7 +168,7 @@ def run(CONFIG, product):
         thick_interval = 10.0
     elif int(band) > 10:# and int(band) < 14:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + '/Colortables/IR4AVHRR6.cpt')   
+        cpt = loadCPT(main_dir / 'colortables/IR4AVHRR6.cpt')   
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15    
         vmin = -103.0
@@ -177,7 +177,7 @@ def run(CONFIG, product):
     '''
     elif int(band) == 14:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + '/Colortables/SVGAIR_TEMP.cpt')   
+        cpt = loadCPT(main_dir + 'colortables/SVGAIR_TEMP.cpt')   
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15    
         vmin = -112.15
@@ -185,7 +185,7 @@ def run(CONFIG, product):
         thick_interval = 10.0
     elif int(band) == 15:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + '/Colortables/SVGAIR_TEMP.cpt')   
+        cpt = loadCPT(main_dir + 'colortables/SVGAIR_TEMP.cpt')   
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15    
         vmin = -112.15
@@ -228,15 +228,15 @@ def run(CONFIG, product):
       
     # Add states and provinces
     # A leitura do shp é feita via cartopy.
-    shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+    shapefile = list(shpreader.Reader(main_dir / 'shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=2)
 
     # Add countries
-    shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+    shapefile = list(shpreader.Reader(main_dir / 'shapefiles/ne_50m_admin_0_countries.shp').geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=3)
 
     # Add continents
-    shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+    shapefile = list(shpreader.Reader(main_dir / 'shapefiles/ne_10m_coastline.shp').geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=4)
       
     # Add coastlines, borders and gridlines
@@ -256,9 +256,9 @@ def run(CONFIG, product):
     import configparser
     conf = configparser.ConfigParser()
     if (satellite == 'G16'):
-        conf.read(main_dir + '/Utils/Labels/labels_g16.ini')
+        conf.read(main_dir / '/Utils/Labels/labels_g16.ini')
     elif (satellite == 'G17'):
-        conf.read(main_dir + '/Utils/Labels/labels_g17.ini')
+        conf.read(main_dir / '/Utils/Labels/labels_g17.ini')
         
     labels, city_lons, city_lats, x_offsets, y_offsets, sizes, colors, marker_types, marker_colors, marker_sizes = [],[],[],[],[],[],[],[],[],[]
 
@@ -284,7 +284,7 @@ def run(CONFIG, product):
     #------------------------------------------------------------------------------------------------------
 
     # Add logos / images to the plot
-    my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+    my_logo = plt.imread(main_dir / 'logos/my_logo.png')
     newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
     newax.imshow(my_logo)
     newax.axis('off')
@@ -304,7 +304,7 @@ def run(CONFIG, product):
     #---------------------------------------------------------------------------------------------
 
     # Create the satellite output directory if it doesn't exist
-    out_dir = product['output'] + satellite
+    out_dir = product['output'] + satellite +  "/"
     if not os.path.exists(out_dir):
        os.makedirs(out_dir)
 

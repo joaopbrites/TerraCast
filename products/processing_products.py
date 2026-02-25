@@ -79,12 +79,12 @@ def process_product(CONFIG, product):
     #print("GNC files:\n", gnc_files)
 
     # If the gnc log file doesn't exist yet, create one
-    file = open(showcast_dir / ('Logs/files/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt'), 'a')
+    file = open(showcast_dir / ('logs/files/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt'), 'a')
     file.close()
 
     # Put all file names on the gnc log in a list
     log = []
-    with open(showcast_dir / ('Logs/files/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt')) as f:
+    with open(showcast_dir / ('logs/files/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt')) as f:
         log = f.readlines()
 
     # Remove the line feeds

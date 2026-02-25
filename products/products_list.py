@@ -29,7 +29,6 @@ __status__ = "Production"
 
 from os.path import dirname, abspath  # Return a normalized absolutized version of the pathname path
 import time as t                      # Time access and conversion
-from typing import Optional
 import logging
 
 #------------------------------------------------------------------------------------------------------
@@ -67,7 +66,7 @@ showcast_process = 1
 #######################################################################################################
 
 
-def products(CONFIG: Optional[dict] = None) -> list[dict]:
+def products(CONFIG) -> list[dict]:
     resultado = []
     p = {}
     p['name'] = 'g16_band01_fdk'

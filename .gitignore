@@ -67,6 +67,8 @@ Testes/
 
 # Output images and processed data
 **/Output/
+**/output/
+
 
 # ========== LOGS ==========
 # All log files
@@ -169,3 +171,4 @@ venv.bak/
 *.7z
 
 # Legacy files tracked in _legacy/
+terracast.yml

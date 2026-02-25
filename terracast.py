@@ -23,12 +23,13 @@ __status__ = "Production"
 #------------------------------------------------------------------------------------------------------
 import sched, time                    # Scheduler library
 import os, sys   # Miscellaneous operating system interfaces
-from pathlib import   Path
+from pathlib import   Path            # Nova biblioteca para lidar com caminhos
 from os.path import dirname, abspath  # Return a normalized absolutized version of the pathname path 
 import datetime                       # Basic date and time types   
 import yaml                           # Para ler o arquivo de configuração
-from logs import setup_logger
+from logs import setup_logger         # Aplicação de logging
 import logging
+
 import products as PC
 
 # SHOWCast process number
@@ -60,31 +61,25 @@ import products as PC
 
 
 def main():
-    setup_logger()
-    log = logging.getLogger(f"processment.{__name__}")
-    #--------------------------------------------------------------------------------------------------
-    # Configuration default values --------------------------------------------------------------------
-    # If you want to change, do not change here. Change at 'showcast.yml'.
-    
-    VERBOSE = True
-    ingest_dir:Path = Path('dados/')
-    vis_dir:Path = Path('output/')
-    #SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
-    SINGLE_PRODUCT_NAME = None # for debug: process only this product
-    # Read configuration from file --------------------------------------------------------------------
-    print("\nSHOWCast started.")
-    with open('showcast.yml', 'r') as arqConfig:
+    # Carrega arquivo de configurações
+    with open('terracast.yml', 'r') as arqConfig:
         CONFIG:dict = yaml.safe_load(arqConfig)
     CONFIG['srcDir'] = Path.cwd()
-    
-    if VERBOSE:
-        print('Configuration:')
-        for item in CONFIG:
-            print('    ', item, ': ', CONFIG[item], sep='')
 
-    # Create list of products to process
-    
-    
+    # Configura as váriaveis com os valores do aquivo
+    setup_logger(int(CONFIG["logging_level"]))
+    ingest_dir:Path = Path(CONFIG["input"])
+    vis_dir:Path = Path(CONFIG["output"])
+
+    # Inicia log
+    log = logging.getLogger(f"processment.{__name__}")
+
+    # Váriaveis de debug
+    SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
+    #SINGLE_PRODUCT_NAME = None # for debug: process only this product
+    VERBOSE = False
+
+    # Carrega a lista de arquivos suportados
     productList:list[dict] = PC.products(CONFIG)
     numberOfProds:int = 0
     singleProduct:dict = None
@@ -107,6 +102,13 @@ def main():
     #print("------------- Monitor Script Executed -------------")
     #print("Waiting for next call. The interval is", seconds, "seconds.")
     #------------------------------------------------------------------------------------------------------
+
+    
+    if VERBOSE:
+        print('Configuration:')
+        for item in CONFIG:
+            print('    ', item, ': ', CONFIG[item], sep='')
+
     sys.exit()
     
 if __name__ == "__main__":

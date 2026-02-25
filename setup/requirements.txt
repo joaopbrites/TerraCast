@@ -5,7 +5,8 @@ apt:
     - libnetcdf-dev
     - libhdf5-dev
     - libhdf4-dev
-    - gdal
+    - gdal-bin
+    - python3-gdal
     - libgdal-dev
     - libgeos-dev
     - libproj-dev
@@ -25,3 +26,4 @@ pip:
     - pyproj
     - shapely
     - pillow
+    - systemd

@@ -36,6 +36,7 @@ TerraCast é um fork de [SHOWCast](https://github.com/diegormsouza/showcast).
     bash install.sh
 
 ```
+
 O arquivo install.sh também permite parametro como:
     -d, --daemon    #Instala o serviço systemd
     -p, --path      #Diretório para o ambiente virtual

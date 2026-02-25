@@ -308,7 +308,20 @@ install_pip_packages() {
     
     for pkg in "${unique_packages[@]}"; do
         log_info "Instalando $pkg..."
-        if $PIP_CMD install "$pkg" 2>/dev/null; then
+        # GDAL precisa ser instalado com a versão do sistema
+        if [[ "${pkg^^}" == "GDAL" ]]; then
+            local gdal_version
+            gdal_version=$(gdal-config --version 2>/dev/null)
+            if [[ -n "$gdal_version" ]]; then
+                if $PIP_CMD install "GDAL==$gdal_version"; then
+                    log_success "GDAL $gdal_version instalado"
+                else
+                    log_warning "Falha ao instalar GDAL - verifique se libgdal-dev está instalado"
+                fi
+            else
+                log_warning "gdal-config não encontrado - instale libgdal-dev primeiro"
+            fi
+        elif $PIP_CMD install "$pkg" 2>/dev/null; then
             log_success "$pkg instalado"
         else
             log_warning "Falha ao instalar $pkg - pode precisar de instalação manual"
