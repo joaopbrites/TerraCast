@@ -343,4 +343,4 @@ def run(CONFIG, product):
     #---------------------------------------------------------------------------------------------
     #---------------------------------------------------------------------------------------------
 
-    print('Total processing time:', round((t.time() - start),2), 'seconds.') 
+    print('Total processing time:', round((t.time() - start),2), 'seconds.')

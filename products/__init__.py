@@ -7,6 +7,6 @@ Este pacote contém:
 """
 
 from .products_list import products
-from .processing_products import process_product
+from .product_processor import process_product
 
 __all__ = ['products', 'process_product']

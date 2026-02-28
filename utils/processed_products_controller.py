@@ -1,0 +1,1 @@
+# Ideia futura é criar uma função que lide com as entradas e sáidas de arquivos processados;

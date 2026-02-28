@@ -172,3 +172,5 @@ venv.bak/
 
 # Legacy files tracked in _legacy/
 terracast.yml
+
+.github/

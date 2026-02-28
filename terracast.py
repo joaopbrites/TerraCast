@@ -21,6 +21,7 @@ __email__ = "diego.souza@inpe.br"
 __status__ = "Production"
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
+
 import sched, time                    # Scheduler library
 import os, sys   # Miscellaneous operating system interfaces
 from pathlib import   Path            # Nova biblioteca para lidar com caminhos
@@ -75,8 +76,8 @@ def main():
     log = logging.getLogger(f"processment.{__name__}")
 
     # Váriaveis de debug
-    SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
-    #SINGLE_PRODUCT_NAME = None # for debug: process only this product
+    #SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
+    SINGLE_PRODUCT_NAME = None # for debug: process only this product
     VERBOSE = False
 
     # Carrega a lista de arquivos suportados
