@@ -22,116 +22,84 @@ __status__ = "Production"
 #------------------------------------------------------------------------------------------------------
 #------------------------------------------------------------------------------------------------------
 
-import sched, time                    # Scheduler library
 import os, sys   # Miscellaneous operating system interfaces
-from pathlib import   Path            # Nova biblioteca para lidar com caminhos
-from os.path import dirname, abspath  # Return a normalized absolutized version of the pathname path 
-import datetime                       # Basic date and time types   
+from pathlib import   Path            # Nova biblioteca para lidar com caminhos 
 import yaml                           # Para ler o arquivo de configuração
 from logs import setup_logger         # Aplicação de logging
 import logging
-
 import products as PC
-
-# SHOWCast process number
-#showcast_process = sys.argv[1]
-#if VERBOSE:
-#    print("SHOWCast process number: ", showcast_process)
-
-# Python environment (Script parent dir + python env)
-#osystem = platform.system()
-#if osystem == "Windows":
-#    python_env = showcast_dir + '/Miniconda3/envs/showcast/' 
-#else:
-#    python_env = showcast_dir + '/Miniconda3/envs/showcast/bin/' 
-#------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------
-# QT Plugin path
-#os.environ['QT_PLUGIN_PATH'] = python_env + "Library/plugins/"
-
-# Interval in seconds
-#seconds = 1
-
-# Call the function for the first time without the interval
-#print("\n------------- Calling Monitor Script --------------")
-#script = python_env + 'python ' + showcast_dir + '/Scripts/showcast_config.py' + ' ' + python_env + ' ' + ingest_dir + ' ' + showcast_process + ' ' + vis_dir
-#script = 'python ' + showcast_dir + '/Scripts/showcast_config.py' + ' ' + python_env + ' ' + ingest_dir + ' ' + showcast_process + ' ' + vis_dir
-#if VERBOSE:
-#    print("Will run: ", script)
 
 
 
 def main():
+    config_file = Path(__file__).resolve().parent / "terracast.yml"
     # Carrega arquivo de configurações
-    with open('terracast.yml', 'r') as arqConfig:
-        CONFIG:dict = yaml.safe_load(arqConfig)
-    CONFIG['srcDir'] = Path.cwd()
+    try:
+        with open(config_file, 'r') as arqConfig:
+            CONFIG = yaml.safe_load(arqConfig)
+    except FileNotFoundError:
+        print("Erro: O arquivo de configuração não foi encontrado.")
+        print("Finalizando Programa")
+        sys.exit(1)
+    except Exception as e:
+        print(f"Ocorreu um erro inesperado: {e}")
+        print("Finalizando Programa")
+        sys.exit(1)
+    CONFIG['src_dir'] = Path(__file__).resolve().parent
+    
+    
+    # Configura o log com o nível estipulado no arquivo
+    log = setup_logger(int(CONFIG["logging_level"])) 
+    log.info(f"Diretorio do projeto {CONFIG['src_dir']}")
+    log.info(f"Arquivo {config_file} carregado com sucesso")
 
-    # Configura as váriaveis com os valores do aquivo
-    setup_logger(int(CONFIG["logging_level"]))
-    ingest_dir:Path = Path(CONFIG["input"])
-    vis_dir:Path = Path(CONFIG["output"])
-
-    # Inicia log
-    log = logging.getLogger(f"processment.{__name__}")
 
     # Váriaveis de debug
-    #SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
-    SINGLE_PRODUCT_NAME = None # for debug: process only this product
-    VERBOSE = False
+    SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
+    #SINGLE_PRODUCT_NAME = None # for debug: process only this product
+    single_product = []
+
+    CONFIG['output'] = CONFIG['output'] + 'Output'
+    if (Path(CONFIG['output']).exists()):
+        log.debug(f'Diretório de destino já existia e se encontra em: {CONFIG['output']}')
+    else:
+        Path(CONFIG['output']).mkdir(parents=True, exist_ok=True)
+        log.debug(f'Diretório de destino não existia e foi criado em: {CONFIG['output']}')
+
 
     # Carrega a lista de arquivos suportados
-    productList:list[dict] = PC.products(CONFIG)
-    numberOfProds:int = 0
-    singleProduct:dict = None
+    productList = PC.products(CONFIG)
+    numberOfProds = 0
+
     for product in productList:
-        if product['enabled']:
-            numberOfProds += 1
-        if SINGLE_PRODUCT_NAME and product['name'] != SINGLE_PRODUCT_NAME:
-            product['enabled'] = False
-        if product['name'] == SINGLE_PRODUCT_NAME:
-            singleProduct = product
-    print(numberOfProds, 'products to be generated.')
-    if SINGLE_PRODUCT_NAME:
+        if SINGLE_PRODUCT_NAME:
+            if product['name'] == SINGLE_PRODUCT_NAME:
+                single_product.append(product)
+                numberOfProds += 1
+                product['enabled'] = True
+                log.audit(f'{product['name']} a processar com: {product['script']}')
+            else:
+                product['enabled'] = False
+        else:
+            if product['enabled']:
+                numberOfProds += 1
+                log.audit(f'{product['name']} a processar com: {product['script']}')
+
+    
+    log.info(f'{numberOfProds} products to be generated.')
+
+
+    if SINGLE_PRODUCT_NAME != None:
         log.debug("Modo debug ativo")
-        print('Will process only "', singleProduct['name'], '".', sep='')
+        log.debug(f'Will process only "{SINGLE_PRODUCT_NAME}"')
+        productList = single_product
+
     for product in productList:
         if product['enabled']:
             PC.process_product(CONFIG, product)
-
-    #os.system(script)
-    #print("------------- Monitor Script Executed -------------")
-    #print("Waiting for next call. The interval is", seconds, "seconds.")
-    #------------------------------------------------------------------------------------------------------
-
-    
-    if VERBOSE:
-        print('Configuration:')
-        for item in CONFIG:
-            print('    ', item, ': ', CONFIG[item], sep='')
 
     sys.exit()
     
 if __name__ == "__main__":
     main()
-#------------------------------------------------------------------------------------------------------	
-# Scheduler function
-"""s = sched.scheduler(time.time, time.sleep)
-
-def call_monitor(sc): 
-    print("\n")
-    print("------------- Calling Monitor Script --------------")
-    script = python_env + 'python ' + showcast_dir + '/Scripts/showcast_config.py' + ' ' + python_env + ' ' + ingest_dir + ' ' + showcast_process + ' ' + vis_dir
-    os.system(script)
-    print("------------- Monitor Script Executed -------------")
-    print("Waiting for next call. The interval is", seconds, "seconds.")	
-    s.enter(seconds, 1, call_monitor, (sc,))
-    # Keep calling the monitor
-    
-# Call the monitor
-s.enter(seconds, 1, call_monitor, (s,))
-s.run()
-"""
-#------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------
 

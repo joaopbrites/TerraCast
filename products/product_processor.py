@@ -40,14 +40,7 @@ import logging
 # FILE PROCESSING AND LOG FUNCTION
 #######################################################################################################
 
-# Logger for this module (error/info logging)
-logger = logging.getLogger(f"processing.{__name__}")
 
-showcast_dir = Path.cwd()
-print('showcast_dir:', showcast_dir)
-
-# Counter to track how many products have been processed
-prod_count = 0
 
 
 def process_product(CONFIG, product):
@@ -69,9 +62,14 @@ def process_product(CONFIG, product):
         argv[8] = vis_dir
         argv[9] = interval
     """
-    global prod_count
+    # Logger for this module (error/info logging)
+    logger = logging.getLogger(f'processment.{__name__}')
+    logger.info("Process product inicializado")
+    terracast_dir = CONFIG['src_dir']
 
-    logger.info(f"Processing {product['name']}")
+
+    # Counter to track how many products have been processed
+    prod_count = 0
 
     # ------------------------------------------------------------------
     # 1. Build the list of candidate files (gnc_files)
@@ -107,8 +105,8 @@ def process_product(CONFIG, product):
     # ------------------------------------------------------------------
     # 2. Read the processed-files log (gnc log)
     # ------------------------------------------------------------------
-    gnc_log_path = showcast_dir / 'logs' / 'files' / f"gnc_log_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
-    gnc_log_path_legacy = showcast_dir / 'Logs' / f"gnc_log_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
+    gnc_log_path = terracast_dir / 'logs' / 'files' / f"gnc_log_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
+    gnc_log_path_legacy = terracast_dir / 'Logs' / f"gnc_log_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
 
     # Create the log file if it doesn't exist
     gnc_log_path.parent.mkdir(parents=True, exist_ok=True)
@@ -125,7 +123,7 @@ def process_product(CONFIG, product):
     # ------------------------------------------------------------------
     # 3. Process each new file via subprocess
     # ------------------------------------------------------------------
-    script_path = showcast_dir / 'scripts' / product['script']
+    script_path = terracast_dir / 'scripts' / product['script']
     extent = product.get('extent', [0.0, 0.0, 0.0, 0.0])
     interval = product.get('interval', '')
 

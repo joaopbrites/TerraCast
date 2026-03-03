@@ -22,51 +22,12 @@ __maintainer__ = "Diego Souza"
 __email__ = "diego.souza@inpe.br"
 __status__ = "Production"
 
-#------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------
 
-# Required Libraries
+# Scrip responsável apenas por montar descrições 
 
-from os.path import dirname, abspath  # Return a normalized absolutized version of the pathname path
-import time as t                      # Time access and conversion
-import logging
+def products(CONFIG) -> list:
+    output_dir = CONFIG['output']
 
-#------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------
-
-start = t.time()  # Start the time counter
-
-# Python environment
-#python_env = sys.argv[1]
-#print('python_env:', python_env)
-
-# Ingestion directory
-#ingest_dir = sys.argv[2]
-ingest_dir = '/dados/fazzt/'
-#print('ingest_dir:', ingest_dir)
-
-# SHOWCast directory:
-showcast_dir = dirname(abspath(__file__))
-print('showcast_dir:', showcast_dir)
-
-# SHOWCast process number
-#showcast_process = int(sys.argv[3])
-showcast_process = 1
-
-# SHOWCast visualization directory
-#vis_dir = sys.argv[4]
-#print('vis_dir:',vis_dir)
-#------------------------------------------------------------------------------------------------------
-#------------------------------------------------------------------------------------------------------
-
-# Select the products that will be processed:
-
-#######################################################################################################
-# GOES-16 - ABI INDIVIDUAL BANDS (FROM GEONETCAST-AMERICAS AND / OR CLOUD)
-#######################################################################################################
-
-
-def products(CONFIG) -> list[dict]:
     resultado = []
     p = {}
     p['name'] = 'g16_band01_fdk'
@@ -79,7 +40,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                   # Processing interval
     p['config'] = ''                                                      # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder (TODOS TEM O MESMO VALOR!)
+    p['output'] = output_dir                               # Output folder (TODOS TEM O MESMO VALOR!)
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -94,7 +55,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -109,7 +70,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -124,7 +85,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -138,7 +99,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -153,7 +114,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -167,7 +128,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -182,7 +143,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -196,7 +157,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -211,7 +172,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -225,7 +186,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -240,7 +201,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -254,7 +215,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -269,7 +230,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -283,7 +244,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -298,7 +259,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -312,7 +273,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -327,7 +288,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -341,7 +302,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -356,7 +317,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -370,7 +331,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -385,7 +346,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -399,7 +360,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -414,7 +375,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -428,7 +389,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -443,7 +404,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -457,7 +418,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -472,7 +433,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -486,7 +447,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -501,7 +462,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -515,7 +476,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -530,7 +491,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -549,7 +510,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -564,7 +525,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -578,7 +539,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -593,7 +554,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -607,7 +568,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -622,7 +583,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -636,7 +597,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -651,7 +612,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -665,7 +626,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -680,7 +641,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -694,7 +655,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -709,7 +670,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -723,7 +684,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -738,7 +699,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -752,7 +713,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -767,7 +728,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -781,7 +742,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -796,7 +757,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -810,7 +771,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -825,7 +786,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -839,7 +800,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -854,7 +815,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -868,7 +829,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -883,7 +844,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -897,7 +858,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -912,7 +873,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -926,7 +887,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -941,7 +902,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -955,7 +916,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -970,7 +931,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -984,7 +945,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_rad_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -999,7 +960,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_rad_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #######################################################################################################
 # GOES-16 RGB COMPOSITES
@@ -1016,7 +977,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_24H'                                                    # Configuration string
     p['script'] = 'g16_24hrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1031,7 +992,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_24S'                                                    # Configuration string
     p['script'] = 'g16_24hrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1045,7 +1006,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_ARM'                                                    # Configuration string
     p['script'] = 'g16_armrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1060,7 +1021,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_ARS'                                                    # Configuration string
     p['script'] = 'g16_armrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1074,7 +1035,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_ASH'                                                    # Configuration string
     p['script'] = 'g16_ashrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1089,7 +1050,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_ASS'                                                    # Configuration string
     p['script'] = 'g16_ashrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1103,7 +1064,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_CLP'                                                    # Configuration string
     p['script'] = 'g16_clprgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1118,7 +1079,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_CLS'                                                    # Configuration string
     p['script'] = 'g16_clprgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1132,7 +1093,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DCC'                                                    # Configuration string
     p['script'] = 'g16_dccrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1147,7 +1108,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DCS'                                                    # Configuration string
     p['script'] = 'g16_dccrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1161,7 +1122,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DCP'                                                    # Configuration string
     p['script'] = 'g16_dcprgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1176,7 +1137,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DCS'                                                    # Configuration string
     p['script'] = 'g16_dcprgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1190,7 +1151,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_CON'                                                    # Configuration string
     p['script'] = 'g16_conrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1205,7 +1166,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_COS'                                                    # Configuration string
     p['script'] = 'g16_conrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1219,7 +1180,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DLC'                                                        # Configuration string
     p['script'] = 'g16_dlcrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1234,7 +1195,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DLS'                                                    # Configuration string
     p['script'] = 'g16_dlcrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1248,7 +1209,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DFR'                                                        # Configuration string
     p['script'] = 'g16_dlfrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1263,7 +1224,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DFS'                                                    # Configuration string
     p['script'] = 'g16_dlfrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1277,7 +1238,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DMP'                                                    # Configuration string
     p['script'] = 'g16_dmprgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1292,7 +1253,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DMS'                                                    # Configuration string
     p['script'] = 'g16_dmprgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1306,7 +1267,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DSF'                                                    # Configuration string
     p['script'] = 'g16_dsfrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1321,7 +1282,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DSS'                                                    # Configuration string
     p['script'] = 'g16_dsfrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1335,7 +1296,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DWV'                                                    # Configuration string
     p['script'] = 'g16_dwvrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1350,7 +1311,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DWS'                                                    # Configuration string
     p['script'] = 'g16_dwvrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1364,7 +1325,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DST'                                                    # Configuration string
     p['script'] = 'g16_dstrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1379,7 +1340,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_DSS'                                                    # Configuration string
     p['script'] = 'g16_dstrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1393,7 +1354,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FCO'                                                    # Configuration string
     p['script'] = 'g16_fcorgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1408,7 +1369,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FCS'                                                    # Configuration string
     p['script'] = 'g16_fcorgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1422,7 +1383,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FTP'                                                    # Configuration string
     p['script'] = 'g16_ftprgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1437,7 +1398,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FTS'                                                    # Configuration string
     p['script'] = 'g16_ftprgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1451,7 +1412,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_NTC'                                                    # Configuration string
     p['script'] = 'g16_ntcrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1466,7 +1427,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_NTS'                                                    # Configuration string
     p['script'] = 'g16_ntcrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1480,7 +1441,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_NMP'                                                    # Configuration string
     p['script'] = 'g16_nmprgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1495,7 +1456,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_NMS'                                                    # Configuration string
     p['script'] = 'g16_nmprgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1509,7 +1470,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SVV'                                                    # Configuration string
     p['script'] = 'g16_swvrgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1524,7 +1485,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SVS'                                                    # Configuration string
     p['script'] = 'g16_swvrgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1538,7 +1499,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SO2'                                                    # Configuration string
     p['script'] = 'g16_so2rgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1552,7 +1513,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SOS'                                                    # Configuration string
     p['script'] = 'g16_so2rgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1566,7 +1527,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_TRU'                                                    # Configuration string
     p['script'] = 'g16_trurgb_fdk.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1581,7 +1542,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_TRS'                                                    # Configuration string
     p['script'] = 'g16_trurgb_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -1600,7 +1561,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1615,7 +1576,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1629,7 +1590,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1644,7 +1605,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1658,7 +1619,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1673,7 +1634,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1687,7 +1648,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1702,7 +1663,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1716,7 +1677,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_adpf_fdk.py'       # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1731,7 +1692,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_adpf_sec.py'       # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1745,7 +1706,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1760,7 +1721,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1774,7 +1735,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1789,7 +1750,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1803,7 +1764,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1818,7 +1779,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1832,7 +1793,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1847,7 +1808,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1861,7 +1822,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = '_CLD'                                                    # Configuration string
     p['script'] = 'g16_dmw_clouds_fdk.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1876,7 +1837,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = '_CLS'                                                    # Configuration string
     p['script'] = 'g16_dmw_clouds_sec.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1890,7 +1851,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_dsif_fdk.py'       # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1905,7 +1866,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_dsif_sec.py'       # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1919,7 +1880,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_rad_fdk.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1934,7 +1895,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_rad_sec.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1948,7 +1909,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_fdfc_fdk.py'       # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1963,7 +1924,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_fdfc_sec.py'       # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1977,7 +1938,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -1992,7 +1953,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2006,7 +1967,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2021,7 +1982,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2035,7 +1996,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2050,7 +2011,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2064,7 +2025,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_rad_fdk.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2079,7 +2040,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_rad_sec.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2093,7 +2054,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2108,7 +2069,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2122,7 +2083,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_baseline_fdk.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2137,7 +2098,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_baseline_sec.py'   # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2156,7 +2117,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FCO'                                                    # Configuration string
     p['script'] = 'g1X_false_color_fdk.py'# Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2171,7 +2132,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FCS'                                                    # Configuration string
     p['script'] = 'g1X_false_color_sec.py'# Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2185,7 +2146,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_IRC'                                                    # Configuration string
     p['script'] = 'g1X_ir_clouds_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2200,7 +2161,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_IRS'                                                    # Configuration string
     p['script'] = 'g1X_ir_clouds_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2214,7 +2175,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                              # Processing interval
     p['config'] = '_IRE'                                                           # Configuration string
     p['script'] = 'g1X_ir_clouds_enhance_fdk.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                      # Output folder
+    p['output'] = output_dir                                      # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2229,7 +2190,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                              # Processing interval
     p['config'] = '_IES'                                                           # Configuration string
     p['script'] = 'g1X_ir_clouds_enhance_sec.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                      # Output folder
+    p['output'] = output_dir                                      # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2243,7 +2204,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SWD'                                                    # Configuration string
     p['script'] = 'g1X_swd_fdk.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2258,7 +2219,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SWS'                                                    # Configuration string
     p['script'] = 'g1X_swd_sec.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2273,7 +2234,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00'                                                      # Processing interval
     p['config'] = '_SAS'                                                    # Configuration string
     p['script'] = 'g1X_sal_sec.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2292,7 +2253,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_glm_20s_fdk.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2307,7 +2268,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_glm_20s_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2321,7 +2282,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_IRF'                                                    # Configuration string
     p['script'] = 'g16_glm_ir_20s_fdk.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2336,7 +2297,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_IRS'                                                    # Configuration string
     p['script'] = 'g16_glm_ir_20s_sec.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2350,7 +2311,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_TRA'                                                    # Configuration string
     p['script'] = 'g16_glm_tra_fdk.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2365,7 +2326,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_TRS'                                                    # Configuration string
     p['script'] = 'g16_glm_tra_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2379,7 +2340,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_DEN'                                                    # Configuration string
     p['script'] = 'g16_glm_den_fdk.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2394,7 +2355,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_DES'                                                    # Configuration string
     p['script'] = 'g16_glm_den_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2408,7 +2369,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_HEA'                                                    # Configuration string
     p['script'] = 'g16_glm_hea_fdk.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2423,7 +2384,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_HES'                                                    # Configuration string
     p['script'] = 'g16_glm_hea_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2437,7 +2398,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g16_glm_clouds_fdk.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2452,7 +2413,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g16_glm_clouds_sec.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2472,7 +2433,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_MOS'                                                    # Configuration string
     p['script'] = 'g1X_b13_mosaic_sec.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2491,7 +2452,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2506,7 +2467,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2520,7 +2481,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2535,7 +2496,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2549,7 +2510,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'g1X_bands_fdk.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2564,7 +2525,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'g1X_bands_sec.py'      # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2583,7 +2544,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FCO'                                                    # Configuration string
     p['script'] = 'g1X_false_color_fdk.py'# Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2598,7 +2559,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_FCS'                                                    # Configuration string
     p['script'] = 'g1X_false_color_sec.py'# Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2612,7 +2573,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_IRC'                                                    # Configuration string
     p['script'] = 'g1X_ir_clouds_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2627,7 +2588,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                       # Processing interval
     p['config'] = '_IRS'                                                    # Configuration string
     p['script'] = 'g1X_ir_clouds_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2641,7 +2602,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                              # Processing interval
     p['config'] = '_IRE'                                                           # Configuration string
     p['script'] = 'g1X_ir_clouds_enhance_fdk.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                      # Output folder
+    p['output'] = output_dir                                      # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2656,7 +2617,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = '00,10,20,30,40,50'                                              # Processing interval
     p['config'] = '_IES'                                                           # Configuration string
     p['script'] = 'g1X_ir_clouds_enhance_sec.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                      # Output folder
+    p['output'] = output_dir                                      # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2675,7 +2636,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'msg_bands_rgb_fdk.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2690,7 +2651,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_SEC'                                                    # Configuration string
     p['script'] = 'msg_bands_rgb_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2710,7 +2671,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                 # Output folder
+    p['output'] = output_dir                                 # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2725,7 +2686,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                  # Output folder
+    p['output'] = output_dir                                  # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2740,7 +2701,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                 # Output folder
+    p['output'] = output_dir                                 # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2755,7 +2716,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                 # Output folder
+    p['output'] = output_dir                                 # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2770,7 +2731,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                 # Output folder
+    p['output'] = output_dir                                 # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2785,7 +2746,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                 # Output folder
+    p['output'] = output_dir                                 # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2800,7 +2761,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                          # Processing interval
     p['config'] = ''                                                          # Configuration string
     p['script'] = 'gcm_imagery_products.py' # Script to activate
-    p['output'] = showcast_dir + '/output/'                                 # Output folder
+    p['output'] = output_dir                                 # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2820,7 +2781,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_btpw_v2.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2835,7 +2796,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_btpw_v2.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2850,7 +2811,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_btpw_v2.py'        # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2870,7 +2831,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                                   # Processing interval
     p['config'] = ''                                                                   # Configuration string
     p['script'] = 'flood_mapping.py'                 # Script to activate
-    p['output'] = showcast_dir + '/output/'                                          # Output folder
+    p['output'] = output_dir                                          # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2885,7 +2846,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                                   # Processing interval
     p['config'] = ''                                                                   # Configuration string
     p['script'] = 'flood_mapping.py'                 # Script to activate
-    p['output'] = showcast_dir + '/output/'                                          # Output folder
+    p['output'] = output_dir                                          # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2900,7 +2861,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                                   # Processing interval
     p['config'] = ''                                                                   # Configuration string
     p['script'] = 'flood_mapping.py'                 # Script to activate
-    p['output'] = showcast_dir + '/output/'                                          # Output folder
+    p['output'] = output_dir                                          # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2920,7 +2881,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'mtp_gblsst_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -2940,7 +2901,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2955,7 +2916,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2970,7 +2931,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -2985,7 +2946,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3000,7 +2961,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3015,7 +2976,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3030,7 +2991,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3045,7 +3006,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'ice.py'                # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -3065,7 +3026,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'nucaps.py'             # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -3084,7 +3045,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'mul_fires.py'          # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -3104,7 +3065,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_tstngl_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3119,7 +3080,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_NHP'                                                    # Configuration string
     p['script'] = 'jps_tstnnh_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3134,7 +3095,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_SHP'                                                    # Configuration string
     p['script'] = 'jps_tstnsh_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -3154,7 +3115,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_001'                                                    # Configuration string
     p['script'] = 'gfs_2mtemp_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3169,7 +3130,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_002'                                                    # Configuration string
     p['script'] = 'gfs_accpre_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3184,7 +3145,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_003'                                                    # Configuration string
     p['script'] = 'gfs_prtmsl_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3199,7 +3160,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_004'                                                    # Configuration string
     p['script'] = 'gfs_gdindx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3214,7 +3175,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_005'                                                    # Configuration string
     p['script'] = 'gfs_ghv500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3229,7 +3190,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_006'                                                    # Configuration string
     p['script'] = 'gfs_psgwrh_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3244,7 +3205,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_007'                                                    # Configuration string
     p['script'] = 'gfs_pwcape_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3259,7 +3220,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_008'                                                    # Configuration string
     p['script'] = 'gfs_sphcld_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3274,7 +3235,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_009'                                                    # Configuration string
     p['script'] = 'gfs_wsd200_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3289,7 +3250,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_010'                                                    # Configuration string
     p['script'] = 'gfs_wsd500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3304,7 +3265,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_011'                                                    # Configuration string
     p['script'] = 'gfs_wsd700_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3319,7 +3280,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_012'                                                    # Configuration string
     p['script'] = 'gfs_wsd850_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3334,7 +3295,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_013'                                                    # Configuration string
     p['script'] = 'gfs_pwcpth_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -3354,7 +3315,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_001'                                                    # Configuration string
     p['script'] = 'gfs_2mtemp_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3369,7 +3330,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_002'                                                    # Configuration string
     p['script'] = 'gfs_accpre_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3384,7 +3345,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_003'                                                    # Configuration string
     p['script'] = 'gfs_prtmsl_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3399,7 +3360,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_004'                                                    # Configuration string
     p['script'] = 'gfs_gdindx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3414,7 +3375,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_005'                                                    # Configuration string
     p['script'] = 'gfs_ghv500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3429,7 +3390,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_006'                                                    # Configuration string
     p['script'] = 'gfs_psgwrh_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3444,7 +3405,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_007'                                                    # Configuration string
     p['script'] = 'gfs_pwcape_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3459,7 +3420,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_008'                                                    # Configuration string
     p['script'] = 'gfs_sphcld_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3474,7 +3435,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_009'                                                    # Configuration string
     p['script'] = 'gfs_wsd200_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3489,7 +3450,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_010'                                                    # Configuration string
     p['script'] = 'gfs_wsd500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3504,7 +3465,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_011'                                                    # Configuration string
     p['script'] = 'gfs_wsd700_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3519,7 +3480,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_012'                                                    # Configuration string
     p['script'] = 'gfs_wsd850_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3534,7 +3495,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_013'                                                    # Configuration string
     p['script'] = 'gfs_pwcpth_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 
 #######################################################################################################
@@ -3554,7 +3515,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_001'                                                    # Configuration string
     p['script'] = 'gfs_2mtemp_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3569,7 +3530,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_002'                                                    # Configuration string
     p['script'] = 'gfs_accpre_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3584,7 +3545,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_003'                                                    # Configuration string
     p['script'] = 'gfs_prtmsl_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3599,7 +3560,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_004'                                                    # Configuration string
     p['script'] = 'gfs_gdindx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3614,7 +3575,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_005'                                                    # Configuration string
     p['script'] = 'gfs_ghv500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3629,7 +3590,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_006'                                                    # Configuration string
     p['script'] = 'gfs_psgwrh_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3644,7 +3605,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_007'                                                    # Configuration string
     p['script'] = 'gfs_pwcape_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3659,7 +3620,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_008'                                                    # Configuration string
     p['script'] = 'gfs_sphcld_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3674,7 +3635,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_009'                                                    # Configuration string
     p['script'] = 'gfs_wsd200_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3689,7 +3650,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_010'                                                    # Configuration string
     p['script'] = 'gfs_wsd500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3704,7 +3665,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_011'                                                    # Configuration string
     p['script'] = 'gfs_wsd700_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3719,7 +3680,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_012'                                                    # Configuration string
     p['script'] = 'gfs_wsd850_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3734,7 +3695,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_013'                                                    # Configuration string
     p['script'] = 'gfs_pwcpth_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -3755,7 +3716,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_001'                                                    # Configuration string
     p['script'] = 'gfs_2mtemp_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3770,7 +3731,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_002'                                                    # Configuration string
     p['script'] = 'gfs_accpre_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3785,7 +3746,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_003'                                                    # Configuration string
     p['script'] = 'gfs_prtmsl_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3800,7 +3761,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_004'                                                    # Configuration string
     p['script'] = 'gfs_gdindx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3815,7 +3776,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_005'                                                    # Configuration string
     p['script'] = 'gfs_ghv500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3830,7 +3791,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_006'                                                    # Configuration string
     p['script'] = 'gfs_psgwrh_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3845,7 +3806,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_007'                                                    # Configuration string
     p['script'] = 'gfs_pwcape_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3860,7 +3821,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_008'                                                    # Configuration string
     p['script'] = 'gfs_sphcld_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3875,7 +3836,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_009'                                                    # Configuration string
     p['script'] = 'gfs_wsd200_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3890,7 +3851,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_010'                                                    # Configuration string
     p['script'] = 'gfs_wsd500_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3905,7 +3866,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_011'                                                    # Configuration string
     p['script'] = 'gfs_wsd700_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3920,7 +3881,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_012'                                                    # Configuration string
     p['script'] = 'gfs_wsd850_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3935,7 +3896,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_013'                                                    # Configuration string
     p['script'] = 'gfs_pwcpth_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -3955,7 +3916,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'idk_idkqpf_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -3969,7 +3930,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'idk_idkqpf_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -3989,7 +3950,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_atrodn_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4003,7 +3964,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_atrode_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4017,7 +3978,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_ssynop_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4031,7 +3992,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_sbuoys_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4045,7 +4006,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_smetar_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4059,7 +4020,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_sspeci_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4073,7 +4034,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_ftafms_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4087,7 +4048,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                         # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_wsigme_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4101,7 +4062,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_wairme_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4115,7 +4076,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_fvolca_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4129,7 +4090,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_wtsuna_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4143,7 +4104,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'isc_wvolca_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -4164,7 +4125,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                            # Processing interval
     p['config'] = '_850'                                                        # Configuration string
     p['script'] = 'jps_alpwat_single_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                                   # Output folder
+    p['output'] = output_dir                                   # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4179,7 +4140,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                            # Processing interval
     p['config'] = '_700'                                                        # Configuration string
     p['script'] = 'jps_alpwat_single_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                                   # Output folder
+    p['output'] = output_dir                                   # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4194,7 +4155,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                            # Processing interval
     p['config'] = '_500'                                                        # Configuration string
     p['script'] = 'jps_alpwat_single_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                                   # Output folder
+    p['output'] = output_dir                                   # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4209,7 +4170,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                            # Processing interval
     p['config'] = '_300'                                                        # Configuration string
     p['script'] = 'jps_alpwat_single_sec.py'  # Script to activate
-    p['output'] = showcast_dir + '/output/'                                   # Output folder
+    p['output'] = output_dir                                   # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -4230,7 +4191,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'sst_coralre_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -4251,7 +4212,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'sst_anomaly_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -4272,7 +4233,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'sst_7dtrend_sec.py'    # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -4293,7 +4254,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_oceanc_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4308,7 +4269,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_oceanc_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4323,7 +4284,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_oceanc_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4338,7 +4299,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_oceanc_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4353,7 +4314,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_oceanc_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4368,7 +4329,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_oceanc_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
 
@@ -4389,7 +4350,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = ''                                                        # Configuration string
     p['script'] = 'jps_gblgvf_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4404,7 +4365,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_NDA'                                                    # Configuration string
     p['script'] = 'jps_vegidx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4419,7 +4380,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_NDC'                                                    # Configuration string
     p['script'] = 'jps_vegidx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     p = {}
@@ -4434,7 +4395,7 @@ def products(CONFIG) -> list[dict]:
     p['interval'] = ''                                                        # Processing interval
     p['config'] = '_EVC'                                                    # Configuration string
     p['script'] = 'jps_vegidx_sec.py'     # Script to activate
-    p['output'] = showcast_dir + '/output/'                               # Output folder
+    p['output'] = output_dir                               # Output folder
     resultado.append(p)
 #------------------------------------------------------------------------------------------------------
     return resultado # Fim da função Produtos
