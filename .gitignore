@@ -30,6 +30,7 @@ htmlcov/
 logs/files/
 logs/*.log
 *.log
+Logs/
 
 # Local environment variables / secrets
 .env
