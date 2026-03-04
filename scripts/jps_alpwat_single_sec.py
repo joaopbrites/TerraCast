@@ -4226,9 +4226,12 @@ grid.SetGeoTransform(getGeoTransform(extent, nlines, ncols))
 driver.CreateCopy(out_dir + nomenclature + "MERCATOR_" + date + '.tif', grid, 0)
 
 print('Generated GeoTIFF: ', nomenclature + "_" + date + '.tif')
-ds = gdal.Warp(out_dir + nomenclature + "_" + date + '.tif', out_dir + nomenclature + "MERCATOR_" + date + '.tif', srcSRS='EPSG:3857', dstSRS='EPSG:4326', outputType=gdal.GDT_Float32, srcNodata=-1, width = width, height = height)
+ds_options = gdal.WarpOptions(width = width, height = height, srcSRS='EPSG:3857', dstSRS='EPSG:4326', outputType=gdal.GDT_Float32, srcNodata=-1)
+src_ds = gdal.Open(out_dir + nomenclature + "MERCATOR_" + date + '.tif')
+ds = gdal.Warp(out_dir + nomenclature + "_" + date + '.tif', src_ds, options=ds_options)
 
 # Close the files
+src_ds = None
 ds = None
 grid = None
 driver = None

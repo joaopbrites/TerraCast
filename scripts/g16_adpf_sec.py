@@ -263,7 +263,7 @@ ax.set_extent([extent[0], extent[2], extent[1], extent[3]], ccrs.PlateCarree())
 # Define the image extent
 img_extent = [extent[0], extent[2], extent[1], extent[3]]
 
-ax.background_patch.set_fill(False)
+ax.patch.set_fill(False)
 # Add a background image
 #ax.stock_img()
 #fname = os.path.join(main_dir + '/Maps/', 'land_ocean_ice_8192.jpg')

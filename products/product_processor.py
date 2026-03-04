@@ -89,7 +89,7 @@ def process_product(CONFIG, product):
     for filename in input_file_names:
         if product['filename pattern'] in FIXED_NAME_FILES:
             mtime = datetime.datetime.fromtimestamp(
-                pathlib.Path(filename).stat().st_mtime
+                Path(filename).stat().st_mtime
             ).strftime('%Y%m%d%H%M%S')
             gnc_files.append(os.path.normpath(filename + product['config'] + '_c' + mtime))
         else:
@@ -119,13 +119,14 @@ def process_product(CONFIG, product):
     with open(gnc_log_path) as f:
         processed_files = [line.strip() for line in f.readlines()]
     with open(gnc_log_path_legacy) as f:
-        processed_files = [line.strip() for line in f.readlines()]
+        processed_files.append([line.strip() for line in f.readlines()])
     # ------------------------------------------------------------------
     # 3. Process each new file via subprocess
     # ------------------------------------------------------------------
     script_path = terracast_dir / 'scripts' / product['script']
     extent = product.get('extent', [0.0, 0.0, 0.0, 0.0])
     interval = product.get('interval', '')
+
 
     for data_file_name in gnc_files:
         if data_file_name in processed_files:
@@ -147,7 +148,7 @@ def process_product(CONFIG, product):
             str(extent[3]),             # argv[5]: max_lat
             str(product['resolution']), # argv[6]: resolution
             CONFIG['output'],           # argv[7]: output dir
-            CONFIG['output'],           # argv[8]: vis_dir
+            CONFIG['output_vis'],           # argv[8]: vis_dir
             interval,                   # argv[9]: interval
         ]
 

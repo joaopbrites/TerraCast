@@ -228,7 +228,7 @@ ax = plt.axes([0, 0, 1, 1], projection=proj)
 # Removido pois não existe mais.
 # background_patch: The patch that provides the filled background of the projection. https://scitools.org.uk/cartopy/docs/v0.18/matplotlib/geoaxes.html
 # In its place, use Matplotlib’s standard options for controlling the Axes patch, i.e., pass values to the constructor or access GeoAxes.patch directly. https://scitools.org.uk/cartopy/docs/v0.18/whats_new.html
-#ax.background_patch.set_fill(False)
+#ax.patch.set_fill(False)
 
 # Add a background image
 #ax.stock_img()

@@ -28,6 +28,7 @@ import yaml                           # Para ler o arquivo de configuração
 from logs import setup_logger         # Aplicação de logging
 import logging
 import products as PC
+from utils import audit
 
 
 
@@ -55,11 +56,10 @@ def main():
 
 
     # Váriaveis de debug
-    SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
-    #SINGLE_PRODUCT_NAME = None # for debug: process only this product
-    single_product = []
+    #SINGLE_PRODUCT_NAME = 'g16_band01_fdk'
+    SINGLE_PRODUCT_NAME = None # for debug: process only this product
 
-    CONFIG['output'] = CONFIG['output'] + 'Output'
+    CONFIG['output'] = CONFIG['output'] + '/Output/'
     if (Path(CONFIG['output']).exists()):
         log.debug(f'Diretório de destino já existia e se encontra em: {CONFIG['output']}')
     else:
@@ -68,38 +68,24 @@ def main():
 
 
     # Carrega a lista de arquivos suportados
-    productList = PC.products(CONFIG)
-    numberOfProds = 0
+    product_list, number_of_prods = audit(PC.products(CONFIG), SINGLE_PRODUCT_NAME)
 
-    for product in productList:
-        if SINGLE_PRODUCT_NAME:
-            if product['name'] == SINGLE_PRODUCT_NAME:
-                single_product.append(product)
-                numberOfProds += 1
-                product['enabled'] = True
-                log.audit(f'{product['name']} a processar com: {product['script']}')
-            else:
-                product['enabled'] = False
-        else:
-            if product['enabled']:
-                numberOfProds += 1
-                log.audit(f'{product['name']} a processar com: {product['script']}')
-
+    # faz a contagem de produtos ativos e configura o modo de debug
     
-    log.info(f'{numberOfProds} products to be generated.')
-
+    
+    log.info(f'{number_of_prods} products to be generated.')
 
     if SINGLE_PRODUCT_NAME != None:
         log.debug("Modo debug ativo")
         log.debug(f'Will process only "{SINGLE_PRODUCT_NAME}"')
-        productList = single_product
 
-    for product in productList:
+    for product in product_list:
         if product['enabled']:
             PC.process_product(CONFIG, product)
 
-    sys.exit()
+   
     
 if __name__ == "__main__":
     main()
+
 

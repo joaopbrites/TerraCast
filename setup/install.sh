@@ -101,13 +101,7 @@ uninstall() {
     else
         log_info "Ambiente virtual não encontrado em $VENV_DIR"
     fi
-    
-    # Remove script de ativação se existir
-    local activate_script="$PROJECT_DIR/activate.sh"
-    if [[ -f "$activate_script" ]]; then
-        rm -f "$activate_script"
-        log_success "Script de ativação removido"
-    fi
+
     
     printf "\n${GREEN}============================================================${NC}\n"
     printf "${GREEN}         TerraCast desinstalado com sucesso!                ${NC}\n"

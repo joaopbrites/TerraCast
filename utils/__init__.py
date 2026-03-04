@@ -3,6 +3,7 @@
 from .remap import remap
 from .cpt_convert import loadCPT
 from .html_update import update
+from .audit import audit
 
 
-__all__ = ['remap', 'loadCPT', 'update']
+__all__ = ['remap', 'loadCPT', 'update', 'audit']

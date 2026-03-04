@@ -225,11 +225,12 @@ data_ch13_original = data_ch13
 IRmin = 89.62
 IRmax = 341.27
 # Anything that is below the min or greater than max, keep min and max
+data_ch13 = data_ch13.astype(int)
 data_ch13[data_ch13 > IRmax] = IRmax
 # Convert to 0 - 255
 data_ch13 = ((data_ch13 - IRmin) / (IRmax - IRmin)) * 255
 # Convert to int
-data_ch13 = data_ch13.astype(int)
+
 
 #print("Reading the False Color Look Up Table...")
  

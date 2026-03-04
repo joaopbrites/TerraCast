@@ -217,7 +217,7 @@ def procDsif(variable,product):
         os.mkdir(out_dir)
    
     # Save the image
-    plt.savefig(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name_id_2"] + "_" + date_file + '.png', facecolor='black'
+    plt.savefig(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name_id_2"] + "_" + date_file + '.png', facecolor='black')
     
     # Convert to webp
     from PIL.WebPImagePlugin import Image          
