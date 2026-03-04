@@ -136,110 +136,48 @@ while [[ $# -gt 0 ]]; do
 done
 
 
-
-
-
-# Verifica e instala dependências do sistema
-check_system_deps() {
-    log_info "Verificando dependências do sistema..."
-    
-    local missing_deps=()
-    local apt_packages=()
-    
-    if ! command -v python3 &> /dev/null; then
-        missing_deps+=("python3")
-        apt_packages+=("python3")
-    fi
-    
-    if ! command -v pip3 &> /dev/null; then
-        missing_deps+=("pip3")
-        apt_packages+=("python3-pip")
-    fi
-    
-    # Verifica python3-venv
-    if ! python3 -c "import venv" &> /dev/null 2>&1; then
-        apt_packages+=("python3-venv")
-    fi
-    
-    if [[ ${#apt_packages[@]} -gt 0 ]]; then
-        log_warning "Dependências faltando: ${missing_deps[*]}"
-        log_info "Instalando automaticamente..."
-        sudo apt update
-        sudo apt install -y ${apt_packages[*]}
-        log_success "Dependências do sistema instaladas"
-    else
-        log_success "Dependências do sistema OK"
-    fi
-}
-
-# Parse do requirements.txt personalizado
-parse_requirements() {
-    local section=""
-    APT_PACKAGES=()
-    PIP_PACKAGES=()
-    
-    while IFS= read -r line || [[ -n "$line" ]]; do
-        # Remove espaços em branco e comentários
-        line=$(echo "$line" | sed 's/#.*//' | xargs)
-        
-        [[ -z "$line" ]] && continue
-        
-        if [[ "$line" == "apt:" ]]; then
-            section="apt"
-            continue
-        elif [[ "$line" == "pip:" ]]; then
-            section="pip"
-            continue
-        fi
-        
-        # Remove o hífen inicial
-        package=$(echo "$line" | sed 's/^-//')
-        
-        if [[ "$section" == "apt" ]]; then
-            APT_PACKAGES+=("$package")
-        elif [[ "$section" == "pip" ]]; then
-            PIP_PACKAGES+=("$package")
-        fi
-    done < "$SCRIPT_DIR/requirements.txt"
-}
-
 # Instala pacotes apt
 install_apt_packages() {
-    if [[ ${#APT_PACKAGES[@]} -eq 0 ]]; then
-        log_warning "Nenhum pacote apt para instalar"
-        return
-    fi
-    
-    log_info "Instalando pacotes apt: ${APT_PACKAGES[*]}"
-    
-    # Mapeia nomes para pacotes apt reais
-    declare -A APT_MAP=(
-        ["matplotlib"]="python3-matplotlib"
-        ["netcdf4"]="python3-netcdf4"
-        ["cartopy"]="python3-cartopy"
-        ["pyorbital"]=""  # Não disponível via apt
-        ["hdf4"]="libhdf4-dev"
-        ["gdal"]="gdal-bin libgdal-dev python3-gdal"
-        ["libnetcdf-dev"]="libnetcdf-dev"
-        ["libhdf5-dev"]="libhdf5-dev"
-    )
-    
+    local apt_file="$SCRIPT_DIR/packages_apt.txt"
     local apt_to_install=()
-    
-    for pkg in "${APT_PACKAGES[@]}"; do
-        if [[ -n "${APT_MAP[$pkg]}" ]]; then
-            apt_to_install+=("${APT_MAP[$pkg]}")
-        else
-            log_warning "Pacote '$pkg' não mapeado para apt, será instalado via pip"
+    local failed_packages=()
+
+    if [[ ! -f "$apt_file" ]]; then
+        log_error "Arquivo não encontrado: $apt_file"
+        return 1
+    fi
+
+    # Lê o arquivo linha por linha, ignorando comentários e linhas vazias
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        # Remove comentários e espaços
+        line=$(echo "$line" | sed 's/#.*//' | xargs)
+        [[ -z "$line" ]] && continue
+        apt_to_install+=("$line")
+    done < "$apt_file"
+
+    if [[ ${#apt_to_install[@]} -eq 0 ]]; then
+        log_warning "Nenhum pacote apt encontrado em packages_apt.txt"
+        return 0
+    fi
+
+    log_info "Atualizando repositórios..."
+    sudo apt update
+
+    log_info "Instalando ${#apt_to_install[@]} pacotes apt..."
+    for pkg in "${apt_to_install[@]}"; do
+        log_info "Instalando: $pkg"
+        if ! sudo apt install -y "$pkg" 2>/dev/null; then
+            log_error "Falha ao instalar: $pkg"
+            failed_packages+=("$pkg")
         fi
     done
-    
-    if [[ ${#apt_to_install[@]} -gt 0 ]]; then
-        log_info "Executando: sudo apt install ${apt_to_install[*]}"
-        sudo apt update
-        sudo apt install -y ${apt_to_install[*]}
-        log_success "Pacotes apt instalados"
+
+    if [[ ${#failed_packages[@]} -gt 0 ]]; then
+        log_error "Pacotes que falharam: ${failed_packages[*]}"
+        return 1
     fi
+
+    log_success "Todos os pacotes apt instalados com sucesso"
 }
 
 # Cria ambiente virtual
@@ -269,60 +207,28 @@ create_python_venv() {
 
 # Instala pacotes pip
 install_pip_packages() {
-    log_info "Instalando pacotes pip..."
+    local req_file="$SCRIPT_DIR/requirements.txt"
+
+    if [[ ! -f "$req_file" ]]; then
+        log_error "Arquivo não encontrado: $req_file"
+        return 1
+    fi
+
+    log_info "Ativando ambiente virtual..."
     source "$VENV_DIR/bin/activate"
-    PIP_CMD="pip"
-    # Atualiza pip
-    $PIP_CMD install --upgrade pip
-    
-    # Pacotes essenciais do TerraCast
-    local core_packages=(
-        "numpy"
-        "matplotlib"
-        "cartopy"
-        "netCDF4"
-        "h5py"
-        "pyorbital"
-        "GDAL"
-        "pyresample"
-        "satpy"
-        "pyyaml"
-        "watchdog"
-    )
-    
-    # Adiciona pacotes do requirements.txt
-    for pkg in "${PIP_PACKAGES[@]}"; do
-        core_packages+=("$pkg")
-    done
-    
-    # Remove duplicatas
-    local unique_packages=($(printf "%s\n" "${core_packages[@]}" | sort -u))
-    
-    log_info "Instalando: ${unique_packages[*]}"
-    
-    for pkg in "${unique_packages[@]}"; do
-        log_info "Instalando $pkg..."
-        # GDAL precisa ser instalado com a versão do sistema
-        if [[ "${pkg^^}" == "GDAL" ]]; then
-            local gdal_version
-            gdal_version=$(gdal-config --version 2>/dev/null)
-            if [[ -n "$gdal_version" ]]; then
-                if $PIP_CMD install "GDAL==$gdal_version"; then
-                    log_success "GDAL $gdal_version instalado"
-                else
-                    log_warning "Falha ao instalar GDAL - verifique se libgdal-dev está instalado"
-                fi
-            else
-                log_warning "gdal-config não encontrado - instale libgdal-dev primeiro"
-            fi
-        elif $PIP_CMD install "$pkg" 2>/dev/null; then
-            log_success "$pkg instalado"
-        else
-            log_warning "Falha ao instalar $pkg - pode precisar de instalação manual"
-        fi
-    done
-    
-    log_success "Pacotes pip instalados"
+
+    log_info "Atualizando pip..."
+    pip install --upgrade pip
+
+    log_info "Instalando pacotes do requirements.txt..."
+    if ! pip install -r "$req_file"; then
+        log_error "Falha ao instalar pacotes pip"
+        deactivate
+        return 1
+    fi
+
+    log_success "Pacotes pip instalados com sucesso"
+    deactivate
 }
 
 # Configura daemon systemd
@@ -358,30 +264,29 @@ setup_daemon() {
 # Main
 main() {
     printf "\n${BLUE}============================================================${NC}\n"
-    printf "${BLUE}         TerraCast - Script de Instalação v0.2              ${NC}\n"
+    printf "${BLUE}         TerraCast - Script de Instalação v0.3              ${NC}\n"
     printf "${BLUE}============================================================${NC}\n\n"
     
     log_info "Diretório do projeto: $PROJECT_DIR"
     log_info "Ambiente virtual: $VENV_DIR"
     
-    # Passo 1: Verificar sistema
-    check_system_deps
+    # Passo 1: Instalar dependências apt
+    log_info "Instalando dependências do sistema..."
+    if ! install_apt_packages; then
+        log_error "Falha na instalação de pacotes apt. Verifique os erros acima."
+        exit 1
+    fi
     
-    # Passo 2: Parse requirements
-    log_info "Lendo requirements.txt..."
-    parse_requirements
-    log_success "Encontrados ${#APT_PACKAGES[@]} pacotes apt e ${#PIP_PACKAGES[@]} pacotes pip"
-    
-    # Passo 3: Instalar dependências apt
-    install_apt_packages
-    
-    # Passo 4: Criar ambiente virtual
+    # Passo 2: Criar ambiente virtual
     create_venv
     
-    # Passo 5: Instalar pacotes pip
-    install_pip_packages
+    # Passo 3: Instalar pacotes pip
+    if ! install_pip_packages; then
+        log_error "Falha na instalação de pacotes pip. Verifique os erros acima."
+        exit 1
+    fi
     
-    # Passo 7: Daemon (opcional)
+    # Passo 4: Daemon (opcional)
     if [[ $DAEMON -eq 1 ]]; then
         setup_daemon
     fi
@@ -391,8 +296,8 @@ main() {
     printf "${GREEN}============================================================${NC}\n\n"
     
     log_info "Para usar o TerraCast:"
-    echo "  1. Ative o ambiente: source $PROJECT_DIR/activate.sh"
-    echo "  2. Execute: python terracast.py"
+    echo "  1. Ative o ambiente: source $VENV_DIR/bin/activate"
+    echo "  2. Execute: python $PROJECT_DIR/terracast.py"
     echo ""
     
     if [[ $DAEMON -eq 1 ]]; then
@@ -400,8 +305,6 @@ main() {
         echo "  sudo systemctl start terracast"
         echo "  sudo systemctl status terracast"
     fi
-    
-
 }
 
 # Executa
