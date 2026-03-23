@@ -51,8 +51,8 @@ def main():
     
     # Configura o log com o nível estipulado no arquivo
     log = setup_logger(int(CONFIG["logging_level"])) 
-    log.info(f"Diretorio do projeto {CONFIG['src_dir']}")
-    log.info(f"Arquivo {config_file} carregado com sucesso")
+    log.debug(f"Diretorio do projeto {CONFIG['src_dir']}")
+    log.debug(f"Arquivo {config_file} carregado com sucesso")
 
 
     # Váriaveis de debug
@@ -73,7 +73,7 @@ def main():
     # faz a contagem de produtos ativos e configura o modo de debug
     
     
-    log.info(f'{number_of_prods} products to be generated.')
+    log.debug(f'{number_of_prods} products to be generated.')
 
     if SINGLE_PRODUCT_NAME != None:
         log.debug("Modo debug ativo")

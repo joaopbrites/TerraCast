@@ -32,7 +32,7 @@ def setup_logger(level, file = True, jounal = False):
     if(jounal):
         logging_processament.addHandler(config_journal_handler())
 
-    logging_processament.info(f"Log de nível {level} inicializado")
+    logging_processament.debug(f"Log de nível {level} inicializado")
 
     return logging_processament
 
