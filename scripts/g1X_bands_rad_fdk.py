@@ -23,6 +23,7 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------
@@ -42,6 +43,7 @@ import os                                                    # Miscellaneous ope
 from os.path import dirname, abspath                         # Return a normalized absolutized version of the pathname path 
 from utils.html_update import update                               # Update the HTML animation 
 import warnings
+import logging
 warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
@@ -70,13 +72,6 @@ for interval in intervals:       # For each interval in the list, check the file
     if (matches == 1): break
 if (matches == 0): # After the loop, if "matches" is "0", the file is not from a desired interval
     print("This file is not from an interval that should be processed. Exiting script.")
-    # Put the processed file on the log
-    import datetime # Basic Date and Time types
-    with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-        log.write(str(datetime.datetime.now()))
-        log.write('\n')
-        log.write(path + '\n')
-        log.write('\n')
     quit()
 #---------------------------------------------------------------------------------------------  
 
@@ -144,14 +139,14 @@ else:
 
 if int(band) <= 6:
     # Converts a CPT file to be used in Python
-    cpt = loadCPT(main_dir + '/Colortables/Square Root Visible Enhancement.cpt')
+    cpt = loadCPT(str(get_asset_path("Square Root Visible Enhancement.cpt")))
     cmap = LinearSegmentedColormap('cpt', cpt)
     vmin = 0.0
     vmax = 1.0
     thick_interval = 0.1
 elif int(band) == 7:
     # Converts a CPT file to be used in Python
-    cpt = loadCPT(main_dir + '/Colortables/SVGAIR2_TEMP.cpt')
+    cpt = loadCPT(str(get_asset_path("SVGAIR2_TEMP.cpt")))
     cmap = LinearSegmentedColormap('cpt', cpt) 
     data -= 273.15
     vmin = -112.15
@@ -159,7 +154,7 @@ elif int(band) == 7:
     thick_interval = 10.0
 elif int(band) > 7 and int(band) < 11:
     # Converts a CPT file to be used in Python
-    cpt = loadCPT(main_dir + '/Colortables/SVGAWVX_TEMP.cpt')
+    cpt = loadCPT(str(get_asset_path("SVGAWVX_TEMP.cpt")))
     cmap = LinearSegmentedColormap('cpt', cpt) 
     data -= 273.15
     vmin = -112.15
@@ -167,7 +162,7 @@ elif int(band) > 7 and int(band) < 11:
     thick_interval = 10.0
 elif int(band) > 10:# and int(band) < 14:
     # Converts a CPT file to be used in Python
-    cpt = loadCPT(main_dir + '/Colortables/IR4AVHRR6.cpt')   
+    cpt = loadCPT(str(get_asset_path('IR4AVHRR6.cpt')))   
     cmap = LinearSegmentedColormap('cpt', cpt) 
     data -= 273.15    
     vmin = -103.0
@@ -176,7 +171,7 @@ elif int(band) > 10:# and int(band) < 14:
 '''
 elif int(band) == 14:
     # Converts a CPT file to be used in Python
-    cpt = loadCPT(main_dir + '/Colortables/SVGAIR_TEMP.cpt')   
+    cpt = loadCPT(str(get_asset_path("SVGAIR_TEMP.cpt")))   
     cmap = LinearSegmentedColormap('cpt', cpt) 
     data -= 273.15    
     vmin = -112.15
@@ -184,7 +179,7 @@ elif int(band) == 14:
     thick_interval = 10.0
 elif int(band) == 15:
     # Converts a CPT file to be used in Python
-    cpt = loadCPT(main_dir + '/Colortables/SVGAIR_TEMP.cpt')   
+    cpt = loadCPT(str(get_asset_path("SVGAIR_TEMP.cpt")))   
     cmap = LinearSegmentedColormap('cpt', cpt) 
     data -= 273.15    
     vmin = -112.15
@@ -226,15 +221,15 @@ img = ax.imshow(data, vmin=plot_config["vmin"], vmax=plot_config["vmax"], origin
 axins1 = inset_axes(ax, width="100%", height="1%", loc='lower center', borderpad=0.0)
   
 # Add states and provinces
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=2)
 
 # Add countries
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=3)
 
 # Add continents
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=4)
   
 # Add coastlines, borders and gridlines
@@ -281,7 +276,7 @@ for label, xpt, ypt, x_offset, y_offset, size, col, mtype, mcolor, msize in zip(
 #------------------------------------------------------------------------------------------------------
 
 # Add logos / images to the plot
-my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+my_logo = plt.imread(str(get_asset_path("my_logo.png")))
 newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
 newax.imshow(my_logo)
 newax.axis('off')
@@ -327,15 +322,6 @@ update(satellite, product, nfiles, sys.argv[7], sys.argv[8])
 os.remove(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name_id_2"] + "_" + date_file + '.png')           
 
 #---------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------
-# Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path + '\n')
- log.write('\n')
-#---------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------
+
 
 print('Total processing time:', round((t.time() - start),2), 'seconds.') 

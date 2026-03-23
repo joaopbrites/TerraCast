@@ -23,6 +23,8 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+import logging
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------

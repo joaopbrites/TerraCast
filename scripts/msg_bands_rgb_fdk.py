@@ -28,7 +28,8 @@ print("\n\nprocess_msg_bands_rgb_fdk.py", end=' ')
 #------------------------------------------------------------------------------------------------------
 # Required modules
 #--------------------------------
-import sys                                                   # Import the "system specific parameters and functions" module
+import logging
+from utils import sys                                                   # Import the "system specific parameters and functions" module
 for param in sys.argv:
     print(param, end=' ')
 print()
@@ -198,15 +199,15 @@ def procMSG(data,product,type):
         img = ax.imshow(data, origin='upper', extent=img_extent, zorder=3)
 
         # Add states and provinces
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=4)
 
         # Add countries
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=5)
 
         # Add continents
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=6)
 
         # Add coastlines, borders and gridlines
@@ -249,7 +250,7 @@ def procMSG(data,product,type):
         #------------------------------------------------------------------------------------------------------
 
         # Add logos / images to the plot
-        my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+        my_logo = plt.imread(str(get_asset_path("my_logo.png")))
         newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
         newax.imshow(my_logo)
         newax.axis('off')
@@ -257,27 +258,27 @@ def procMSG(data,product,type):
     else:
         # Converts a CPT file to be used in Python
         if (product == 'VIS006') or (product == 'VIS008') or (product == 'NIR016') or (product == 'HRVCHN'):
-            cpt = loadCPT(main_dir + '/Colortables/Square Root Visible Enhancement.cpt')
+            cpt = loadCPT(str(get_asset_path("Square Root Visible Enhancement.cpt")))
             cmap = LinearSegmentedColormap('cpt', cpt)
             vmin = 0.0
             vmax = 1.0
             thick_interval = 0.1
         if (product == 'IRD039'):
-            cpt = loadCPT(main_dir + '/Colortables/SVGAIR2_TEMP.cpt')
+            cpt = loadCPT(str(get_asset_path("SVGAIR2_TEMP.cpt")))
             cmap = LinearSegmentedColormap('cpt', cpt)
             data -= 273.15
             vmin = -112.15
             vmax = 56.85
             thick_interval = 10.0
         if (product == 'WVP062') or (product == 'WVP073'):
-            cpt = loadCPT(main_dir + '/Colortables/SVGAWVX_TEMP.cpt')
+            cpt = loadCPT(str(get_asset_path("SVGAWVX_TEMP.cpt")))
             cmap = LinearSegmentedColormap('cpt', cpt)
             data -= 273.15
             vmin = -112.15
             vmax = 56.85
             thick_interval = 10.0
         if (product == 'IRD087') or (product == 'IRD097') or (product == 'IRD108') or (product == 'IRD120') or (product == 'IRD134'):
-            cpt = loadCPT(main_dir + '/Colortables/IR4AVHRR6.cpt')
+            cpt = loadCPT(str(get_asset_path('IR4AVHRR6.cpt')))
             cmap = LinearSegmentedColormap('cpt', cpt)
             data -= 273.15
             vmin = -103.0
@@ -315,7 +316,7 @@ def procMSG(data,product,type):
         # Add background image if HRV
         if (product == 'HRVCHN_FDK'):
             #ax.stock_img()
-            fname = os.path.join(main_dir + '/Maps/', 'land_ocean_ice_8192.jpg')
+            fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))
             ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=1)
             #date = datetime(int(year), int(month), int(day), int(hour))
             #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)
@@ -327,15 +328,15 @@ def procMSG(data,product,type):
         axins1 = inset_axes(ax, width="100%", height="1%", loc='lower center', borderpad=0.0)
 
         # Add states and provinces
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=4)
 
         # Add countries
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=5)
 
         # Add continents
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=6)
 
         # Add coastlines, borders and gridlines
@@ -379,7 +380,7 @@ def procMSG(data,product,type):
         #------------------------------------------------------------------------------------------------------
 
         # Add logos / images to the plot
-        my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+        my_logo = plt.imread(str(get_asset_path("my_logo.png")))
         newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
         newax.imshow(my_logo)
         newax.axis('off')
@@ -461,13 +462,7 @@ f = math.ceil(float(resolution / band_resolution_km))
 
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
-# Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path + '\n')
- log.write('\n')
+#antigolog
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 print('path:', path)

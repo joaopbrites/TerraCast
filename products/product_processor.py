@@ -35,6 +35,7 @@ from os.path import dirname, abspath
 import subprocess                     # Subprocess management (replaces os.system)
 import sys                            # System-specific parameters and functions
 import logging
+from utils import ControllerProducts
 
 #######################################################################################################
 # FILE PROCESSING AND LOG FUNCTION
@@ -64,9 +65,10 @@ def process_product(CONFIG, product):
     """
     # Logger for this module (error/info logging)
     logger = logging.getLogger(f'processment.{__name__}')
-    logger.info("Process product inicializado")
+    logger.debug("Process product inicializado")
     terracast_dir = CONFIG['src_dir']
 
+    controller_products = ControllerProducts()
 
     # Counter to track how many products have been processed
     prod_count = 0
@@ -103,24 +105,6 @@ def process_product(CONFIG, product):
     gnc_files = gnc_files[-product['max files']:]
 
     # ------------------------------------------------------------------
-    # 2. Read the processed-files log (gnc log)
-    # ------------------------------------------------------------------
-    gnc_log_path = terracast_dir / 'logs' / 'files' / f"gnc_log_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
-    gnc_log_path_legacy = terracast_dir / 'Logs' / f"gnc_log_{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
-
-    # Create the log file if it doesn't exist
-    gnc_log_path.parent.mkdir(parents=True, exist_ok=True)
-    gnc_log_path.touch(exist_ok=True)
-
-    gnc_log_path_legacy.parent.mkdir(parents=True, exist_ok=True)
-    gnc_log_path_legacy.touch(exist_ok=True)
-
-    # Read already-processed file names
-    with open(gnc_log_path) as f:
-        processed_files = [line.strip() for line in f.readlines()]
-    with open(gnc_log_path_legacy) as f:
-        processed_files.append([line.strip() for line in f.readlines()])
-    # ------------------------------------------------------------------
     # 3. Process each new file via subprocess
     # ------------------------------------------------------------------
     script_path = terracast_dir / 'scripts' / product['script']
@@ -129,7 +113,7 @@ def process_product(CONFIG, product):
 
 
     for data_file_name in gnc_files:
-        if data_file_name in processed_files:
+        if controller_products.is_processed(data_file_name):
             continue
 
         print(f'Processing the following file: {data_file_name}\n')
@@ -156,27 +140,47 @@ def process_product(CONFIG, product):
         print('\n--- Script execution started ---\n')
 
         try:
-            # Execute script with real-time output (no capture_output)
-            # stdout/stderr will be shown directly in the terminal
             result = subprocess.run(
                 command,
                 check=True,             # Raise on non-zero exit code
                 timeout=600,            # 10 min timeout (adjust as needed)
+                capture_output=True,
+                text=True,
             )
 
-            print('\n--- Script execution completed successfully ---\n')
-            logger.info(f'Successfully processed: {data_file_name}')
+            if result.stdout:
+                print(result.stdout)
 
-        except subprocess.TimeoutExpired:
+            print('\n--- Script execution completed successfully ---\n')
+            controller_products.mark_processed(data_file_name)
+            logger.info(f'Successfully processed: {data_file_name}')
+            
+
+        except subprocess.TimeoutExpired as e:
+            stderr_output = (e.stderr or e.stdout or "").strip()
+            error_message = (
+                f"ERROR: Script timeout after 600 seconds. Details: {stderr_output}"
+                if stderr_output
+                else "ERROR: Script timeout after 600 seconds"
+            )
             logger.error(f'Timeout processing {data_file_name}')
-            print(f'\nERROR: Script timeout after 600 seconds\n')
+            controller_products.mark_failed(data_file_name, error_message)
+            print(f'\n{error_message}\n')
 
         except subprocess.CalledProcessError as e:
+            stderr_output = (e.stderr or e.stdout or "").strip()
+            error_message = (
+                f"ERROR: Script returned non-zero exit code {e.returncode}. Details: {stderr_output}"
+                if stderr_output
+                else f"ERROR: Script returned non-zero exit code {e.returncode}"
+            )
             logger.error(f'Script error for {data_file_name} (exit code {e.returncode})')
-            print(f'\nERROR: Script returned non-zero exit code: {e.returncode}\n')
+            controller_products.mark_failed(data_file_name, error_message)
+            print(f'\n{error_message}\n')
 
         except Exception as e:
             logger.error(f'Unexpected error processing {data_file_name}: {e}')
+            controller_products.mark_failed(data_file_name, f"ERROR: {e}")
             print(f'\nERROR: {e}\n')
 
         print()

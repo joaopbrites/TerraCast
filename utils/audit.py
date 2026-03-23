@@ -15,26 +15,26 @@ def audit(product_list, SINGLE_PRODUCT_NAME = None):
     product_result = []
 
 
-    with open(caminho_arquivo / "audit_products.json", 'w', encoding='utf-8') as f:
-        for product in product_list:
-            if SINGLE_PRODUCT_NAME != None:
-                if product['name'] == SINGLE_PRODUCT_NAME:
-                    product['enabled'] = True
-                else:
-                    product['enabled'] = False
-            if product['enabled']:
-                product_result.append(product)
-                number_of_prods += 1
-                # Cria dict com as 3 variáveis + timestamp
-                audit_entry = {
-                    "timestamp": datetime.now().strftime('%d %b %Y, %H:%M'),
-                    "name": product['name'],
-                    "script": product['script'],
-                    "pattern": product['input'] + product['filename pattern']
-                }
+    #with open(caminho_arquivo / "audit_products.json", 'w', encoding='utf-8') as f:
+    for product in product_list:
+        if SINGLE_PRODUCT_NAME != None:
+            if product['name'] == SINGLE_PRODUCT_NAME:
+                product['enabled'] = True
+            else:
+                product['enabled'] = False
+        if product['enabled']:
+            product_result.append(product)
+            number_of_prods += 1
+            # Cria dict com as 3 variáveis + timestamp
+            audit_entry = {
+                "timestamp": datetime.now().strftime('%d %b %Y, %H:%M'),
+                "name": product['name'],
+                "script": product['script'],
+                "pattern": product['input'] + product['filename pattern']
+            }
                 # Grava uma linha JSON por produto (JSONL)
-                json.dump(audit_entry, f, ensure_ascii=False, indent=4)
-                f.write('\n')
+                #json.dump(audit_entry, f, ensure_ascii=False, indent=4)
+                #f.write('\n')
 
     return product_result, number_of_prods
 

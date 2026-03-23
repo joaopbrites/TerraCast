@@ -26,6 +26,7 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------
@@ -48,6 +49,7 @@ import h5py
 import warnings
 import logging
 from pathlib import Path
+import logging
 warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
@@ -55,7 +57,7 @@ warnings.filterwarnings("ignore")
 def run(CONFIG, product):
     # configuração do logger
     log = logging.getLogger(f"processment.{__name__}")
-    log.info(f'Processing {product['name']}, with {product['script']}')
+    log.debug(f'Processing {product['name']}, with {product['script']}')
 
     # Start the time counter
     start:float = t.time()  
@@ -81,12 +83,6 @@ def run(CONFIG, product):
         if (matches == 1): break
     if (matches == 0): # After the loop, if "matches" is "0", the file is not from a desired interval
         print("This file is not from an interval that should be processed. Exiting script.")
-        # Put the processed file on the log
-        with open(main_dir + '//Logs//gnc_log_' + str(datetime.now())[0:10] + '.txt', 'a') as log:
-            log.write(str(datetime.now()))
-            log.write('\n')
-            log.write(product['dataFileName'] + '\n')
-            log.write('\n')
         quit()
     #---------------------------------------------------------------------------------------------    
 
@@ -145,14 +141,14 @@ def run(CONFIG, product):
 
     if int(band) <= 6:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir / 'colortables/Square Root Visible Enhancement.cpt')
+        cpt = loadCPT(str(get_asset_path("Square Root Visible Enhancement.cpt")))
         cmap = LinearSegmentedColormap('cpt', cpt)
         vmin = 0.0
         vmax = 1.0
         thick_interval = 0.1
     elif int(band) == 7:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir / 'colortables/SVGAIR2_TEMP.cpt')
+        cpt = loadCPT(str(get_asset_path("SVGAIR2_TEMP.cpt")))
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15
         vmin = -112.15
@@ -160,7 +156,7 @@ def run(CONFIG, product):
         thick_interval = 10.0
     elif int(band) > 7 and int(band) < 11:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir / 'colortables/SVGAWVX_TEMP.cpt')
+        cpt = loadCPT(str(get_asset_path("SVGAWVX_TEMP.cpt")))
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15
         vmin = -112.15
@@ -168,7 +164,7 @@ def run(CONFIG, product):
         thick_interval = 10.0
     elif int(band) > 10:# and int(band) < 14:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir / 'colortables/IR4AVHRR6.cpt')   
+        cpt = loadCPT(str(get_asset_path("IR4AVHRR6.cpt")))   
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15    
         vmin = -103.0
@@ -177,7 +173,7 @@ def run(CONFIG, product):
     '''
     elif int(band) == 14:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + 'colortables/SVGAIR_TEMP.cpt')   
+        cpt = loadCPT(str(get_asset_path("SVGAIR_TEMP.cpt")))   
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15    
         vmin = -112.15
@@ -185,7 +181,7 @@ def run(CONFIG, product):
         thick_interval = 10.0
     elif int(band) == 15:
         # Converts a CPT file to be used in Python
-        cpt = loadCPT(main_dir + 'colortables/SVGAIR_TEMP.cpt')   
+        cpt = loadCPT(str(get_asset_path("SVGAIR_TEMP.cpt")))   
         cmap = LinearSegmentedColormap('cpt', cpt) 
         data -= 273.15    
         vmin = -112.15
@@ -228,15 +224,15 @@ def run(CONFIG, product):
       
     # Add states and provinces
     # A leitura do shp é feita via cartopy.
-    shapefile = list(shpreader.Reader(main_dir / 'shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+    shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=2)
 
     # Add countries
-    shapefile = list(shpreader.Reader(main_dir / 'shapefiles/ne_50m_admin_0_countries.shp').geometries())
+    shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=3)
 
     # Add continents
-    shapefile = list(shpreader.Reader(main_dir / 'shapefiles/ne_10m_coastline.shp').geometries())
+    shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=4)
       
     # Add coastlines, borders and gridlines
@@ -284,7 +280,7 @@ def run(CONFIG, product):
     #------------------------------------------------------------------------------------------------------
 
     # Add logos / images to the plot
-    my_logo = plt.imread(main_dir / 'logos/my_logo.png')
+    my_logo = plt.imread(str(get_asset_path("my_logo.png")))
     newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
     newax.imshow(my_logo)
     newax.axis('off')
@@ -332,15 +328,6 @@ def run(CONFIG, product):
     # Delete aux files
     os.remove(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name_id_2"] + "_" + date_file + '.png')            
 
-    #---------------------------------------------------------------------------------------------
-    #---------------------------------------------------------------------------------------------
-    # Put the processed file on the log
-    with open(main_dir + '/Logs/gnc_log_' + str(datetime.now())[0:10] + '.txt', 'a') as log:
-     log.write(str(datetime.now()))
-     log.write('\n')
-     #log.write(path + '\n')
-     log.write('\n')
-    #---------------------------------------------------------------------------------------------
-    #---------------------------------------------------------------------------------------------
+   
 
     print('Total processing time:', round((t.time() - start),2), 'seconds.')

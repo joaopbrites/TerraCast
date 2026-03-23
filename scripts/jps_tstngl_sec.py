@@ -23,6 +23,8 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+import logging
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------
@@ -147,7 +149,7 @@ img_extent = [extent[0], extent[2], extent[1], extent[3]]
 
 # Add a background image
 ax.stock_img()
-#fname = os.path.join(main_dir + '/Maps/', 'land_ocean_ice_8192.jpg')
+#fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))
 #ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=1)
 #date = datetime(int(year), int(month), int(day), int(hour))
 #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)
@@ -156,15 +158,15 @@ ax.stock_img()
 img = ax.imshow(toast, vmin=plot_config["vmin"], vmax=plot_config["vmax"], origin='upper', extent=img_extent, cmap=plot_config["cmap"], alpha = 0.6, zorder=2)
 
 # Add states and provinces
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=5)
 
 # Add countries
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=6)
 
 # Add continents
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=7)
   
 # Add gridlines
@@ -228,7 +230,7 @@ for label, xpt, ypt, x_offset, y_offset, size, col, mtype, mcolor, msize in zip(
 #------------------------------------------------------------------------------------------------------
 
 # Add logos / images to the plot
-my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+my_logo = plt.imread(str(get_asset_path("my_logo.png")))
 newax = fig.add_axes([0.01, 0.01, 0.10, 0.10], anchor='SW', zorder=14) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
 newax.imshow(my_logo)
 newax.axis('off')
@@ -267,13 +269,7 @@ os.remove(out_dir + satellite + '_' + product + '_' + date + '.png')
 
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
-# Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path + '\n')
- log.write('\n')
+#antigolog
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 

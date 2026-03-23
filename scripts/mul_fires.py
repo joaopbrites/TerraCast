@@ -26,6 +26,8 @@ __status__ = "Production"
 #import matplotlib
 #matplotlib.use('Agg')
 #--------------------------------
+import logging
+from utils.repository import get_asset_path
 import re                                                    # Regular expression operations
 import numpy as np                                           # Scientific computing with Python
 import os                                                    # Miscellaneous operating system interfaces
@@ -155,20 +157,20 @@ m.add_child(folium.LatLngPopup())
 image = ('../HTML/showcast_fire.webp')
 FloatImage(image, bottom=7, left=1).add_to(m)
 
-image = ('../Legends/showcast_fire_legend.png')
+image = str(get_asset_path("showcast_fire_legend.png"))
 FloatImage(image, bottom=18, left=1).add_to(m)
 
 #================================================================================
 
 # Add shapefiles
 
-shape = (main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp')
+shape = (str(get_asset_path("ne_50m_admin_0_countries.shp")))
 countries = gpd.read_file(shape)
 
-shape = (main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp')
+shape = (str(get_asset_path("ne_10m_admin_1_states_provinces.shp")))
 states = gpd.read_file(shape)
 
-shape = (main_dir + '/Shapefiles/ne_10m_coastline.shp')
+shape = (str(get_asset_path("ne_10m_coastline.shp")))
 coastlines = gpd.read_file(shape)
 
 geoPath_countries = countries.geometry.to_json()
@@ -370,12 +372,7 @@ m.save(main_dir + '/HTML/SHOWCast_Fire.html')
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 # Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path_original + '\n')
- log.write('\n')
+#antigolog
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 

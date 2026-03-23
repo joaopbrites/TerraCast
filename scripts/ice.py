@@ -26,6 +26,8 @@ __status__ = "Production"
 #import matplotlib
 #matplotlib.use('Agg')
 #--------------------------------
+import logging
+from utils.repository import get_asset_path
 import re                                                    # Regular expression operations
 import numpy as np                                           # Scientific computing with Python
 import os                                                    # Miscellaneous operating system interfaces
@@ -159,7 +161,7 @@ def procIce(product, time, lat_file, lon_file, var_file, nodata):
       img_extent = [extent[0], extent[2], extent[1], extent[3]]
       # Add a background image
       ax.stock_img()
-      #fname = os.path.join(main_dir + '/Maps/', 'land_ocean_ice_8192.jpg')
+      #fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))
       #ax.imshow(imread(fname), origin='upper', transform=proj, zorder=1)
       #date = datetime(int(year), int(month), int(day), int(hour))
       #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)
@@ -193,7 +195,7 @@ def procIce(product, time, lat_file, lon_file, var_file, nodata):
       img_extent = [extent[0], extent[2], extent[1], extent[3]]       
       # Add a background image
       ax.stock_img()
-      #fname = os.path.join(main_dir + '/Maps/', 'land_ocean_ice_8192.jpg')
+      #fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))
       #ax.imshow(imread(fname), origin='upper', transform=proj, zorder=1)
       #date = datetime(int(year), int(month), int(day), int(hour))
       #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)
@@ -203,15 +205,15 @@ def procIce(product, time, lat_file, lon_file, var_file, nodata):
    axins1 = inset_axes(ax, width="100%", height="1%", loc='lower center', borderpad=0.0)
   
    # Add states and provinces
-   shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+   shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
    ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=4)
 
    # Add countries
-   shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+   shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
    ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=5)
 
    # Add continents
-   shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+   shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
    ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=6)
   
    # Add coastlines, borders and gridlines
@@ -224,7 +226,7 @@ def procIce(product, time, lat_file, lon_file, var_file, nodata):
    plt.annotate(plot_config["title_text"] + " " + date_formated , xy=(plot_config["title_x_offset"], plot_config["title_y_offset"]), xycoords='figure pixels', fontsize=plot_config["title_size"], fontweight='bold', color='white', bbox=dict(boxstyle="round",fc=(0.0, 0.0, 0.0), ec=(1., 1., 1.)), zorder=8)
 
    # Add logos / images to the plot
-   my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+   my_logo = plt.imread(str(get_asset_path("my_logo.png")))
    newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
    newax.imshow(my_logo)
    newax.axis('off')
@@ -532,12 +534,7 @@ elif "S-OSI_-DMI_-MTOP-SH_MRSIDRIFT" in path:
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 # Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path_original + '\n')
- log.write('\n')
+#antigolog
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 
