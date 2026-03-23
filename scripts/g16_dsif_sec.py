@@ -146,7 +146,7 @@ def procDsif(variable,product):
 
     # Add a background image
     #ax.stock_img()
-    fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))w
+    fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))
     ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=1)
     date = datetime(int(year), int(month), int(day), int(hour))
     #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)

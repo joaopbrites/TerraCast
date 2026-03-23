@@ -99,6 +99,7 @@ def process_product(CONFIG, product):
 
     if not gnc_files:
         logger.warning(f"No files found for product '{product['name']}' with pattern: {input_pattern}")
+        controller_products.mark_failed(f"{input_pattern}{product['name']}", f"No files found for product")
         return
 
     # Keep only the most recent N files

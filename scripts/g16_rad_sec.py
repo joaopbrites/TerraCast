@@ -130,10 +130,10 @@ minutes = date.strftime('%M')
 data = file.variables[variable][:,:][::1,::1]
 
 # Read the lats
-lats = file.variables['lat'][:]
+lats = file.variables['lat'][::]
 
 # Read the lons
-lons = file.variables['lon'][:]
+lons = file.variables['lon'][::]
 
 # Convert from int16 to uint16
 data = data.astype(np.float64)
