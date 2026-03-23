@@ -14,6 +14,8 @@
 __author__ = 'Diego Enore'
 __email__  = 'diego.enore@inpe.br'
 
+import logging
+from utils.repository import get_asset_path
 from netCDF4 import Dataset, num2date
 
 import matplotlib.pyplot as plt
@@ -54,9 +56,9 @@ main_dir = dirname(dirname(abspath(__file__)))
 # Define Lat/Lon WSG84 Spatial Reference System (EPSG:4326)
 LAT_LON_WGS84 = osr.SpatialReference()
 LAT_LON_WGS84.ImportFromProj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs')
-map_provinces = main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp'
-map_coastline = main_dir + '/Shapefiles/ne_10m_coastline.shp'
-map_countries = main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp'
+map_provinces = str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))
+map_coastline = str(get_asset_path("ne_10m_coastline.shp"))
+map_countries = str(get_asset_path("ne_50m_admin_0_countries.shp"))
 # -------------------------------------------------------------------------------
 
 def buildLatLonGrid(extent, sizex, sizey):
@@ -194,7 +196,7 @@ def plot_map(pos, title, extent, nlon, nlat, var, vmin, vmax):
 
     # Add a background image
     ax.stock_img()
-    fname = os.path.join(main_dir + '/Maps/', 'natural-earth-1_large2048px.jpg')
+    fname = os.path.join(str(get_asset_path('natural-earth-1_large2048px.jpg')))
     ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=2)
 
     # Plot the var
@@ -451,7 +453,7 @@ if (inside == True):
 				
 				# Add a background image
 				#ax.stock_img()
-				fname = os.path.join(main_dir + '/Maps/', 'natural-earth-1_large2048px.jpg')
+				fname = os.path.join(str(get_asset_path('natural-earth-1_large2048px.jpg')))
 				ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=2)
 				
 				ax.add_patch(mpatches.Rectangle(xy=[extent_user[0], extent_user[1]], width=extent_user[2]-extent_user[0], height=extent_user[3]-extent_user[1], fill = True, facecolor='orange', alpha=0.6, transform=ccrs.PlateCarree(), zorder = 3))
@@ -479,7 +481,7 @@ if (inside == True):
 				
 				# Add a background image
 				#ax.stock_img()
-				fname = os.path.join(main_dir + '/Maps/', 'natural-earth-1_large2048px.jpg')
+				fname = os.path.join(str(get_asset_path('natural-earth-1_large2048px.jpg')))
 				ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=2)
 				
 				ax.add_patch(mpatches.Rectangle(xy=[extent_user[0], extent_user[1]], width=extent_user[2]-extent_user[0], height=extent_user[3]-extent_user[1], fill = True, facecolor='orange', alpha=0.6, transform=ccrs.PlateCarree(), zorder = 3))
@@ -543,18 +545,18 @@ if (inside == True):
 				plot_map([0.75, -0.04, .2, .4], 'CINE (J.Kg$^-$$^1$)', extent, nlon, nlat, cine, vmin, vmax)
 
 				# Insert logo inpe    
-				#my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+				#my_logo = plt.imread(str(get_asset_path("my_logo.png")))
 				#newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=1) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
 				#newax.imshow(my_logo)
 				#newax.axis('off')
 
-				im = plt.imread(main_dir + '/Logos/inpe_cptec.jpg')
+				im = plt.imread(str(get_asset_path("inpe_cptec.jpg")))
 				ax = fig.add_axes([0.92, -.02, 0.07, 0.07], anchor='NE', zorder=-1)
 				plt.setp(plt.gca(), frame_on=False, xticks=(), yticks=())
 				ax.imshow(im)
 				
 				#im = plt.imread('inpe_cptec.jpg')
-				#im = plt.imread(main_dir + '/Logos/my_logo.png')
+				#im = plt.imread(str(get_asset_path("my_logo.png")))
 				#ax = fig.add_axes([0.92, 0.0, 0.06, 0.06], anchor='NE', zorder=-1)
 				#plt.setp(plt.gca(), frame_on=False, xticks=(), yticks=())
 				#ax.imshow(im)
@@ -580,30 +582,24 @@ if (inside == True):
 				plt.savefig(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.png'.format(i), bbox_inches='tight', pad_inches=0)
 				
                 # Convert to webp
-                from PIL.WebPImagePlugin import Image          
-                im = Image.open(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.png')
-                im.save(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.webp', format = "WebP", lossless = True)
-                im.close()
+				from PIL.WebPImagePlugin import Image          
+				im = Image.open(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.png')
+				im.save(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.webp', format = "WebP", lossless = True)
+				im.close()
                 
 				# Update the animation
 				nfiles = 60
 				update(satellite, product, nfiles, sys.argv[7], sys.argv[8])
 
                 # Delete aux files
-                os.remove(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.png')  
+				os.remove(out_dir + 'N20_NUCAPS_SEC_' + tempo[i].strftime('%Y%m%d%H%M%S') + '_' + str(i).zfill(2) + '.png')  
 
 				plt.clf()
 				plt.close('all')
 				
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
-# Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path + '\n')
- log.write('\n')
+#antigolog
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 

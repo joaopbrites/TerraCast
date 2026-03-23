@@ -23,6 +23,8 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+import logging
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------
@@ -79,14 +81,6 @@ for interval in intervals:       # For each interval in the list, check the file
     if (matches == 1): break
 if (matches == 0): # After the loop, if "matches" is "0", the file is not from a desired interval
     print("This file is not from an interval that should be processed. Exiting script.")
-    # Put the processed file on the log
-    import datetime # Basic Date and Time types
-    import datetime # Basic Date and Time types
-    with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-        log.write(str(datetime.datetime.now()))
-        log.write('\n')
-        log.write(path + '\n')
-        log.write('\n')
     quit()
 #---------------------------------------------------------------------------------------------  
 
@@ -236,7 +230,7 @@ data_ch13 = ((data_ch13 - IRmin) / (IRmax - IRmin)) * 255
  
 import matplotlib.image as mpimg
 # Open the False Color Look Up Table
-img = mpimg.imread(main_dir + '/Colortables/wx-star.com_GOES-R_ABI_False-Color-LUT_sat20.png')
+img = mpimg.imread(str(get_asset_path("wx-star.com_GOES-R_ABI_False-Color-LUT_sat20.png")))
 # Flip the array (for some reason, is necessary to flip the LUT horizontally)
 img = np.fliplr(img)
 # Apply the look up table based on the Band 02 reflectances and Band 13 Brightness Temperatures
@@ -294,7 +288,7 @@ alphas = ((alphas - max_sun_angle) / (min_sun_angle - max_sun_angle))
 data = np.dstack((data, alphas))
 
 #print("Reading the night lights...")
-raster = gdal.Open(main_dir + '/Maps/BlackMarble_2016_6km_geo.tif')
+raster = gdal.Open(str(get_asset_path('BlackMarble_2016_6km_geo.tif')))
 ulx, xres, xskew, uly, yskew, yres = raster.GetGeoTransform()
 lrx = ulx + (raster.RasterXSize * xres)
 lry = uly + (raster.RasterYSize * yres)
@@ -372,7 +366,7 @@ data2[data2 < 0.20] = np.nan
 img3 = ax.imshow(data2, cmap='gray', vmin=0.15, vmax=0.30, alpha = 1.0, origin='upper', extent=img_extent, zorder=3)
 
 # Converts a CPT file to be used in Python
-cpt = loadCPT(main_dir + '/Colortables/IR4AVHRR6.cpt')   
+cpt = loadCPT(str(get_asset_path('IR4AVHRR6.cpt')))   
 cmap = LinearSegmentedColormap('cpt', cpt) 
 #print("Third layer...")
 # THIRD LAYER
@@ -385,15 +379,15 @@ img4 = ax.imshow(data3, cmap=cmap, vmin=-103, vmax=84, alpha=1.0, origin='upper'
 img5 = ax.imshow(data, origin='upper', extent=img_extent, zorder=5)
 
 # Add states and provinces
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=6)
 
 # Add countries
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=7)
 
 # Add continents
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=8)
   
 # Add coastlines, borders and gridlines
@@ -440,7 +434,7 @@ for label, xpt, ypt, x_offset, y_offset, size, col, mtype, mcolor, msize in zip(
 #---------------------------------------------------------------------------------------------
 
 # Add logos / images to the plot
-my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+my_logo = plt.imread(str(get_asset_path("my_logo.png")))
 newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=13) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
 newax.imshow(my_logo)
 newax.axis('off')
@@ -471,16 +465,6 @@ update(satellite, product, nfiles, sys.argv[7], sys.argv[8])
 # Delete aux files
 os.remove(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name_id_2"] + "_" + date_file + '.png') 
 
-#---------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------
-# Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path + '\n')
- log.write('\n')
-#---------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------
+
 
 print('Total processing time:', round((t.time() - start),2), 'seconds.') 

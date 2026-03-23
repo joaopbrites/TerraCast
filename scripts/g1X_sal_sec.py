@@ -23,6 +23,8 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+import logging
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------
@@ -85,12 +87,7 @@ for interval in intervals:       # For each interval in the list, check the file
 if (matches == 0): # After the loop, if "matches" is "0", the file is not from a desired interval
     print("This file is not from an interval that should be processed. Exiting script.")
     # Put the processed file on the log
-    import datetime # Basic Date and Time types
-    with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-        log.write(str(datetime.datetime.now()))
-        log.write('\n')
-        log.write(path + '\n')
-        log.write('\n')
+#antigolog
     quit()
 #---------------------------------------------------------------------------------------------  
 
@@ -266,7 +263,7 @@ img_extent = [extent[0], extent[2], extent[1], extent[3]]
 
 # Add a background image
 #ax.stock_img()
-fname = os.path.join(main_dir + '/Maps/', 'world.topo.bathy.200408.3x5400x2700.jpg')
+fname = os.path.join(str(get_asset_path('world.topo.bathy.200408.3x5400x2700.jpg')))
 ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=1)
 date = datetime(int(year), int(month), int(day), int(hour))
 #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)
@@ -276,7 +273,7 @@ import shapely.geometry as sgeom
 from shapely.ops import unary_union
 from shapely.prepared import prep
 
-land_geom = unary_union(list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries()))
+land_geom = unary_union(list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries()))
 land = prep(land_geom)
 data[land.contains(sgeom.Point())] = np.nan
 
@@ -318,15 +315,15 @@ img4 = ax.imshow(data2, cmap='gray', vmin=0.05, vmax=0.50, alpha = 1.0, origin='
 axins1 = inset_axes(ax, width="100%", height="1%", loc='lower center', borderpad=0.0)
   
 # Add states and provinces
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=7)
 
 # Add countries
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=8)
 
 # Add continents
-shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
 ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=9)
 
 # Add coastlines, borders and gridlines
@@ -375,13 +372,13 @@ for label, xpt, ypt, x_offset, y_offset, size, col, mtype, mcolor, msize in zip(
 #------------------------------------------------------------------------------------------------------
 
 # Add logos / images to the plot
-my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+my_logo = plt.imread(str(get_asset_path("my_logo.png")))
 newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
 newax.imshow(my_logo)
 newax.axis('off')
 
 # Add a legend to the plot
-my_legend = plt.imread(main_dir + '/Legends/SAL_legend.png')
+my_legend = plt.imread(str(get_asset_path("SAL_legend.png")))
 newax = fig.add_axes([0.69, 0.69, 0.30, 0.30], anchor='NE', zorder=13) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
 newax.imshow(my_legend)
 newax.axis('off')
@@ -428,16 +425,6 @@ os.remove(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name
 os.remove(path_ch13 +'.aux.xml')
 os.remove(path_ch15 +'.aux.xml')
 
-#---------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------
-# Put the processed file on the log
-import datetime # Basic Date and Time types
-with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
- log.write(str(datetime.datetime.now()))
- log.write('\n')
- log.write(path + '\n')
- log.write('\n')
-#---------------------------------------------------------------------------------------------
-#---------------------------------------------------------------------------------------------
+
 
 print('Total processing time:', round((t.time() - start),2), 'seconds.') 

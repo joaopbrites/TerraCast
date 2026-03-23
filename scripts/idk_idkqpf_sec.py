@@ -23,6 +23,8 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+import logging
+from utils.repository import get_asset_path
 import matplotlib
 matplotlib.use('Agg')
 #--------------------------------
@@ -592,12 +594,7 @@ import pathlib  # Object-oriented filesystem paths
 # Get the file modification time
 mtime = datetime.datetime.fromtimestamp(pathlib.Path(path).stat().st_mtime).strftime('%Y%m%d%H%M%S')
 # Write to the log
-with open(main_dir + '//Logs//gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-    log.write(str(datetime.datetime.now()))
-    log.write('\n')
-    log.write(path + '_c' + mtime + '\n')
-    log.write('\n')
-
+#antigolog
 #---------------------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------------------
 

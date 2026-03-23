@@ -28,6 +28,7 @@ __status__ = "Production"
 #------------------------------------------------------------------------------------------------------
 # Required modules
 #--------------------------------
+from utils.repository import get_asset_path
 import sys                                                   # Import the "system specific parameters and functions" module
 for param in sys.argv:
     print(param, end=' ')
@@ -61,6 +62,7 @@ from osgeo import gdal, osr, ogr                             # Import GDAL
 import glob                                                  # Unix style pathname pattern expansion
 import warnings
 import logging
+
 warnings.filterwarnings("ignore")
 
 #------------------------------------------------------------------------------------------------------
@@ -301,8 +303,8 @@ def run(CONFIG:list[dict], product:dict):
 
     # Add a background image
     ax.stock_img()
-    #fname = os.path.join(main_dir + '/Maps/', 'land_ocean_ice_8192.jpg')
-    fname = os.path.join('Maps/', 'land_ocean_ice_8192.jpg')
+    #fname = os.path.join(str(get_asset_path('land_ocean_ice_8192.jpg')))
+    fname = os.path.join(str(get_asset_path("land_ocean_ice_8192.jpg")))
     ax.imshow(imread(fname), origin='upper', transform=ccrs.PlateCarree(), extent=[-180, 180, -90, 90], zorder=1)
     #date = datetime(int(year), int(month), int(day), int(hour))
     #ax.add_feature(Nightshade(date, alpha=0.7), zorder=2)
@@ -324,15 +326,15 @@ def run(CONFIG:list[dict], product:dict):
     axins1 = inset_axes(ax, width="100%", height="1%", loc='lower center', borderpad=0.0)
 
     # Add states and provinces
-    shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+    shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
     ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=4)
 
     # Add countries
-    #shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+    #shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
     #ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=5)
 
     # Add continents
-    #shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+    #shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
     #ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=6)
 
     # Add coastlines, borders and gridlines
@@ -348,23 +350,23 @@ def run(CONFIG:list[dict], product:dict):
     #------------------------------------------------------------------------------------------------------
 
     # Add logos / images to the plot
-    my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+    my_logo = plt.imread(str(get_asset_path("my_logo.png")))
     newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
     newax.imshow(my_logo)
     newax.axis('off')
 
-    my_logo = plt.imread(main_dir + '/Logos/noaa_logo.png')
+    my_logo = plt.imread(str(get_asset_path('noaa_logo.png')))
     newax = fig.add_axes([0.12, 0.03, 0.08, 0.08], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
     newax.imshow(my_logo)
     newax.axis('off')
 
-    #my_logo = plt.imread(main_dir + '/Logos/gmu_logo.png')
+    #my_logo = plt.imread(str(get_asset_path("gmu_logo.png")))
     #newax = fig.add_axes([0.22, 0.03, 0.15, 0.15], anchor='SW', zorder=12) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
     #newax.imshow(my_logo)
     #newax.axis('off')
 
     # Add a legend to the plot
-    my_legend = plt.imread(main_dir + '/Legends/FLOOD_legend.png')
+    my_legend = plt.imread(str(get_asset_path("FLOOD_legend.png")))
     newax = fig.add_axes([0.77, 0.77, 0.22, 0.22], anchor='NE', zorder=13) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
     newax.imshow(my_legend)
     newax.axis('off')
@@ -413,16 +415,5 @@ def run(CONFIG:list[dict], product:dict):
     os.remove(ancillaryVRTfileName)
     os.remove(ancillaryTIFfileName)
 
-    #---------------------------------------------------------------------------------------------
-    #---------------------------------------------------------------------------------------------
-    # Put the processed file on the log
-    import datetime # Basic Date and Time types
-    with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-     log.write(str(datetime.datetime.now()))
-     log.write('\n')
-     log.write(path + '\n')
-     log.write('\n')
-    #---------------------------------------------------------------------------------------------
-    #---------------------------------------------------------------------------------------------
 
     print('Total processing time:', round((t.time() - start),2), 'seconds.')

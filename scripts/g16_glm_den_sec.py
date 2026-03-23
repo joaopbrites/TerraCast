@@ -23,6 +23,8 @@ __status__ = "Production"
 # Required modules
 #--------------------------------
 #to run in a pure text terminal:
+import logging
+from utils.repository import get_asset_path
 import matplotlib
 #matplotlib.use('Agg')
 #--------------------------------
@@ -295,7 +297,7 @@ if (seconds == '00'):
         #---------------------------------------------------------------------------------------------
         #---------------------------------------------------------------------------------------------
         # Add states and provinces
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_admin_1_states_provinces.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_admin_1_states_provinces.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["states_color"],facecolor='none', linewidth=plot_config["states_width"], zorder=8)
 
         # Add coastlines and borders
@@ -303,11 +305,11 @@ if (seconds == '00'):
         #ax.add_feature(cartopy.feature.BORDERS, edgecolor=plot_config["continents_color"], linewidth=plot_config["continents_width"], zorder=12)
 
         # Add countries
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_50m_admin_0_countries.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_50m_admin_0_countries.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["countries_color"],facecolor='none', linewidth=plot_config["countries_width"], zorder=9)
 
         # Add continents
-        shapefile = list(shpreader.Reader(main_dir + '/Shapefiles/ne_10m_coastline.shp').geometries())
+        shapefile = list(shpreader.Reader(str(get_asset_path("ne_10m_coastline.shp"))).geometries())
         ax.add_geometries(shapefile, ccrs.PlateCarree(), edgecolor=plot_config["continents_color"],facecolor='none', linewidth=plot_config["continents_width"], zorder=10)
           
         # Add gridlines
@@ -352,7 +354,7 @@ if (seconds == '00'):
         #------------------------------------------------------------------------------------------------------
 
         # Add logos / images to the plot
-        my_logo = plt.imread(main_dir + '/Logos/my_logo.png')
+        my_logo = plt.imread(str(get_asset_path("my_logo.png")))
         newax = fig.add_axes([0.01, 0.03, 0.10, 0.10], anchor='SW', zorder=15) #  [left, bottom, width, height]. All quantities are in fractions of figure width and height.
         newax.imshow(my_logo)
         newax.axis('off')
@@ -386,33 +388,18 @@ if (seconds == '00'):
         #---------------------------------------------------------------------------------------------
         #---------------------------------------------------------------------------------------------
         # Put the processed file on the log
-        import datetime # Basic Date and Time types
-        with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-         log.write(str(datetime.datetime.now()))
-         log.write('\n')
-         log.write(path + '\n')
-         log.write('\n')
+#antigolog
         #---------------------------------------------------------------------------------------------
         #---------------------------------------------------------------------------------------------
         print('Total processing time:', round((t.time() - start),2), 'seconds.') 
     else:
         print("This is not a divisible minute. Exiting script.")
         # Put the processed file on the log
-        import datetime # Basic Date and Time types
-        with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-         log.write(str(datetime.datetime.now()))
-         log.write('\n')
-         log.write(path + '\n')
-         log.write('\n')        
+#antigolog        
         quit()
 else:
     print("This is not a full minute file. Exiting script.")
     # Put the processed file on the log
-    import datetime # Basic Date and Time types
-    with open(main_dir + '/Logs/gnc_log_' + str(datetime.datetime.now())[0:10] + '.txt', 'a') as log:
-     log.write(str(datetime.datetime.now()))
-     log.write('\n')
-     log.write(path + '\n')
-     log.write('\n')
+#antigolog
     quit()
         
