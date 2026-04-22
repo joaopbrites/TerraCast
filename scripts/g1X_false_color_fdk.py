@@ -214,7 +214,7 @@ f = math.ceil(float(resolution / band_resolution_km))
 # Get the pixel values
 data_ch13 = file_ch13.variables['CMI'][:,:][::f ,::f ]
 data_ch13_original = data_ch13
-
+# bug to fix
 # Minimum and maximum reflectances
 IRmin = 89.62
 IRmax = 341.27

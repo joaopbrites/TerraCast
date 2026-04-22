@@ -38,11 +38,11 @@ class ControllerProducts:
                     self.processed.update(data)
 
             # Carrega falhados
-            failed_path = self._failed_path(d)
-            if failed_path.exists():
-                with open(failed_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    self.failed.update(data)
+            #failed_path = self._failed_path(d)
+            #if failed_path.exists():
+                #with open(failed_path, "r", encoding="utf-8") as f:
+                    #data =data json.load(f)
+                    #self.failed.update(data)
             
 
     def _save_processed_today(self):

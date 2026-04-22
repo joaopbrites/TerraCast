@@ -27,11 +27,9 @@ __status__ = "Production"
 
 # Required Libraries
 import datetime                       # Basic Date and Time types
-import pathlib                        # Object-oriented filesystem paths
 import glob                           # Unix style pathname pattern expansion
 import os                             # Miscellaneous operating system interfaces
 from pathlib import Path
-from os.path import dirname, abspath
 import subprocess                     # Subprocess management (replaces os.system)
 import sys                            # System-specific parameters and functions
 import logging
@@ -70,9 +68,6 @@ def process_product(CONFIG, product):
 
     controller_products = ControllerProducts()
 
-    # Counter to track how many products have been processed
-    prod_count = 0
-
     # ------------------------------------------------------------------
     # 1. Build the list of candidate files (gnc_files)
     # ------------------------------------------------------------------
@@ -99,6 +94,7 @@ def process_product(CONFIG, product):
 
     if not gnc_files:
         logger.warning(f"No files found for product '{product['name']}' with pattern: {input_pattern}")
+        controller_products.mark_failed(f"{input_pattern}{product['name']}", f"No files found for product")
         return
 
     # Keep only the most recent N files
@@ -110,16 +106,21 @@ def process_product(CONFIG, product):
     script_path = terracast_dir / 'scripts' / product['script']
     extent = product.get('extent', [0.0, 0.0, 0.0, 0.0])
     interval = product.get('interval', '')
+    child_env = os.environ.copy()
+    project_path = str(terracast_dir)
+    current_pythonpath = child_env.get("PYTHONPATH", "")
+
+    if current_pythonpath:
+        pythonpath_entries = current_pythonpath.split(os.pathsep)
+        if project_path not in pythonpath_entries:
+            child_env["PYTHONPATH"] = project_path + os.pathsep + current_pythonpath
+    else:
+        child_env["PYTHONPATH"] = project_path
 
 
     for data_file_name in gnc_files:
         if controller_products.is_processed(data_file_name):
             continue
-
-        print(f'Processing the following file: {data_file_name}\n')
-        print(f'Script used: {script_path}\n')
-
-        prod_count += 1
 
         # Build the command — same parameter order as the legacy system
         command = [
@@ -136,24 +137,42 @@ def process_product(CONFIG, product):
             interval,                   # argv[9]: interval
         ]
 
-        print('Command used:\n', ' '.join(command))
-        print('\n--- Script execution started ---\n')
+        logger.info(
+            "Starting product processing",
+            extra={
+                "status": "running",
+                "exception": "",
+                "script": product['script'],
+                "product": product['name'],
+                "input_file": data_file_name,
+                "event_time": datetime.datetime.now().isoformat(timespec="seconds"),
+            },
+        )
 
         try:
             result = subprocess.run(
                 command,
+                cwd=project_path,
+                env=child_env,
                 check=True,             # Raise on non-zero exit code
                 timeout=600,            # 10 min timeout (adjust as needed)
                 capture_output=True,
                 text=True,
             )
-
-            if result.stdout:
-                print(result.stdout)
-
-            print('\n--- Script execution completed successfully ---\n')
             controller_products.mark_processed(data_file_name)
-            logger.info(f'Successfully processed: {data_file_name}')
+            logger.info(
+                "Product processed successfully",
+                extra={
+                    "status": "success",
+                    "exception": "",
+                    "script": product['script'],
+                    "product": product['name'],
+                    "input_file": data_file_name,
+                    "event_time": datetime.datetime.now().isoformat(timespec="seconds"),
+                },
+            )
+            if result.stdout:
+                logger.debug(result.stdout)
             
 
         except subprocess.TimeoutExpired as e:
@@ -163,9 +182,18 @@ def process_product(CONFIG, product):
                 if stderr_output
                 else "ERROR: Script timeout after 600 seconds"
             )
-            logger.error(f'Timeout processing {data_file_name}')
+            logger.error(
+                error_message,
+                extra={
+                    "status": "failed",
+                    "exception": type(e).__name__,
+                    "script": product['script'],
+                    "product": product['name'],
+                    "input_file": data_file_name,
+                    "event_time": datetime.datetime.now().isoformat(timespec="seconds"),
+                },
+            )
             controller_products.mark_failed(data_file_name, error_message)
-            print(f'\n{error_message}\n')
 
         except subprocess.CalledProcessError as e:
             stderr_output = (e.stderr or e.stdout or "").strip()
@@ -174,13 +202,30 @@ def process_product(CONFIG, product):
                 if stderr_output
                 else f"ERROR: Script returned non-zero exit code {e.returncode}"
             )
-            logger.error(f'Script error for {data_file_name} (exit code {e.returncode})')
+            logger.error(
+                error_message,
+                extra={
+                    "status": "failed",
+                    "exception": type(e).__name__,
+                    "script": product['script'],
+                    "product": product['name'],
+                    "input_file": data_file_name,
+                    "event_time": datetime.datetime.now().isoformat(timespec="seconds"),
+                },
+            )
             controller_products.mark_failed(data_file_name, error_message)
-            print(f'\n{error_message}\n')
 
         except Exception as e:
-            logger.error(f'Unexpected error processing {data_file_name}: {e}')
-            controller_products.mark_failed(data_file_name, f"ERROR: {e}")
-            print(f'\nERROR: {e}\n')
-
-        print()
+            error_message = f"ERROR: {e}"
+            logger.error(
+                error_message,
+                extra={
+                    "status": "failed",
+                    "exception": type(e).__name__,
+                    "script": product['script'],
+                    "product": product['name'],
+                    "input_file": data_file_name,
+                    "event_time": datetime.datetime.now().isoformat(timespec="seconds"),
+                },
+            )
+            controller_products.mark_failed(data_file_name, error_message)

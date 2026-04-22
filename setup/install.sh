@@ -208,6 +208,18 @@ create_python_venv() {
 # Instala pacotes pip
 install_pip_packages() {
     local req_file="$SCRIPT_DIR/requirements.txt"
+    local sanitized_req
+    local req_install_file
+    local line
+    local normalized
+    local tmp_file
+    local pip_output_file
+    local missing_line
+    local missing_pkg
+    local retry_count=0
+    local max_retries=20
+    local skipped_count=0
+    local kept_count=0
 
     if [[ ! -f "$req_file" ]]; then
         log_error "Arquivo não encontrado: $req_file"
@@ -220,9 +232,136 @@ install_pip_packages() {
     log_info "Atualizando pip..."
     pip install --upgrade pip
 
+    # Sanitiza requirements congelado em distro Debian para formato instalável via pip.
+    # Mantém o arquivo original intacto e só filtra/normaliza em arquivo temporário.
+    sanitized_req="$(mktemp)"
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        line="$(echo "$line" | sed 's/#.*//' | xargs)"
+        [[ -z "$line" ]] && continue
+
+        case "$line" in
+            apt-listchanges==*|python-apt==*|python-debian==*|python-debianbts==*|Brlapi==*|cupshelpers==*|dbus-python==*|h5py._debian_h5py_serial==*|legacy-cgi==*|louis==*|PyGObject==*|pycups==*|pysmbc==*|reportbug==*|xdg==*)
+                skipped_count=$((skipped_count + 1))
+                log_warning "Ignorando pacote não-PyPI no requirements: $line"
+                continue
+                ;;
+        esac
+
+        normalized="$(echo "$line" | sed -E 's/\+dfsg[0-9]*//g; s/\+ds[0-9]*//g')"
+        echo "$normalized" >> "$sanitized_req"
+        kept_count=$((kept_count + 1))
+    done < "$req_file"
+
+    log_info "Requirements sanitizado: $kept_count pacotes válidos, $skipped_count ignorados"
+
     log_info "Instalando pacotes do requirements.txt..."
-    if ! pip install -r "$req_file"; then
-        log_error "Falha ao instalar pacotes pip"
+    req_install_file="$sanitized_req"
+    while true; do
+        local pip_status
+        pip_output_file="$(mktemp)"
+        pip install -r "$req_install_file" 2>&1 | tee "$pip_output_file"
+        pip_status=${PIPESTATUS[0]}
+        if [[ $pip_status -eq 0 ]]; then
+            rm -f "$pip_output_file"
+            break
+        fi
+
+        missing_line="$(grep -E 'No matching distribution found for [A-Za-z0-9_.-]+==' "$pip_output_file" | tail -n 1 || true)"
+        if [[ -z "$missing_line" ]]; then
+            log_error "Falha ao instalar pacotes pip"
+            rm -f "$pip_output_file" "$sanitized_req"
+            deactivate
+            return 1
+        fi
+
+        missing_pkg="$(echo "$missing_line" | sed -E 's/.*for ([A-Za-z0-9_.-]+)==.*/\1/')"
+        if [[ -z "$missing_pkg" ]]; then
+            log_error "Não foi possível identificar pacote com versão incompatível"
+            rm -f "$pip_output_file" "$sanitized_req"
+            deactivate
+            return 1
+        fi
+
+        retry_count=$((retry_count + 1))
+        if [[ $retry_count -gt $max_retries ]]; then
+            log_error "Limite de tentativas atingido ao ajustar versões incompatíveis ($max_retries)"
+            rm -f "$pip_output_file" "$sanitized_req"
+            deactivate
+            return 1
+        fi
+
+        log_warning "Versão fixada indisponível para '$missing_pkg'. Tentando versão compatível sem pin exato..."
+        tmp_file="$(mktemp)"
+        awk -v pkg="$missing_pkg" '{ if ($0 ~ ("^" pkg "==")) $0=pkg; print }' "$req_install_file" > "$tmp_file"
+        mv "$tmp_file" "$req_install_file"
+        rm -f "$pip_output_file"
+    done
+
+    rm -f "$sanitized_req"
+
+    # Garante bindings Python do GDAL no venv para import de osgeo.
+    if ! command -v gdal-config >/dev/null 2>&1; then
+        log_error "gdal-config não encontrado. Verifique se libgdal-dev e gdal-bin estão instalados."
+        deactivate
+        return 1
+    fi
+
+    local gdal_version
+    gdal_version="$(gdal-config --version)"
+    log_info "Instalando bindings Python do GDAL no venv (GDAL==$gdal_version)..."
+    if ! pip install "GDAL==$gdal_version"; then
+        log_error "Falha ao instalar GDAL==$gdal_version no ambiente virtual"
+        deactivate
+        return 1
+    fi
+
+    log_info "Instalando bindings Python do systemd no venv..."
+    if ! pip install systemd-python; then
+        log_error "Falha ao instalar systemd-python no ambiente virtual"
+        deactivate
+        return 1
+    fi
+
+    log_info "Instalando o projeto via pyproject (pip install -e .)..."
+    if ! pip install -e "$PROJECT_DIR"; then
+        log_error "Falha ao instalar o projeto em modo editável"
+        deactivate
+        return 1
+    fi
+
+    log_info "Validando integridade de dependências (pip check)..."
+    if ! pip check; then
+        log_error "pip check encontrou dependências quebradas"
+        deactivate
+        return 1
+    fi
+
+    log_info "Executando teste rápido de imports críticos..."
+    if ! python - <<'PY'
+mods = [
+    "numpy", "pandas", "scipy", "matplotlib", "netCDF4", "h5py",
+    "pyproj", "shapely", "geopandas", "cartopy", "rasterio", "fiona",
+    "pygrib", "pyhdf", "pyorbital", "pyresample", "satpy", "pyspectral",
+    "yaml", "PIL", "affine", "folium", "osgeo", "systemd"
+]
+
+missing = []
+for mod in mods:
+    try:
+        __import__(mod)
+    except Exception as exc:
+        missing.append((mod, str(exc).splitlines()[0]))
+
+if missing:
+    print("Imports críticos com falha:")
+    for name, err in missing:
+        print(f"- {name}: {err}")
+    raise SystemExit(1)
+
+print("Imports críticos OK")
+PY
+    then
+        log_error "Falha no teste de imports críticos"
         deactivate
         return 1
     fi
@@ -247,7 +386,6 @@ setup_daemon() {
     sudo cp "$source_file" "$dest_file"
     
     # Substitui placeholders no arquivo de serviço
-    sudo sed -i "s|%USER%|$USER|g" "$dest_file"
     sudo sed -i "s|%PROJECT_DIR%|$PROJECT_DIR|g" "$dest_file"
     sudo sed -i "s|%VENV_DIR%|$VENV_DIR|g" "$dest_file"
     

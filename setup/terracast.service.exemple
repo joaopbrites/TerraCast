@@ -4,9 +4,12 @@ After=network.target
 
 [Service]
 Type=simple
-User=%USER%
+User=root
 WorkingDirectory=%PROJECT_DIR%
 ExecStart=%VENV_DIR%/bin/python %PROJECT_DIR%/terracast.py
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=terracast
 Restart=on-failure
 RestartSec=10
 

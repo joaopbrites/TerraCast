@@ -28,7 +28,7 @@ import yaml                           # Para ler o arquivo de configuração
 from logs import setup_logger         # Aplicação de logging
 import logging
 import products as PC
-from utils import audit
+
 
 
 
@@ -50,7 +50,7 @@ def main():
     
     
     # Configura o log com o nível estipulado no arquivo
-    log = setup_logger(int(CONFIG["logging_level"])) 
+    log = setup_logger(int(CONFIG["logging_level"]), CONFIG.get("log_journal", True))
     log.debug(f"Diretorio do projeto {CONFIG['src_dir']}")
     log.debug(f"Arquivo {config_file} carregado com sucesso")
 
@@ -67,8 +67,15 @@ def main():
         log.debug(f'Diretório de destino não existia e foi criado em: {CONFIG['output']}')
 
 
-    # Carrega a lista de arquivos suportados
-    product_list, number_of_prods = audit(PC.products(CONFIG), SINGLE_PRODUCT_NAME)
+    # Carrega a lista de produtos suportados
+    product_list = PC.products(CONFIG)
+
+    # Filtro opcional para debug: processa apenas um produto pelo nome
+    if SINGLE_PRODUCT_NAME is not None:
+        for product in product_list:
+            product['enabled'] = (product['name'] == SINGLE_PRODUCT_NAME)
+
+    number_of_prods = sum(1 for product in product_list if product.get('enabled'))
 
     # faz a contagem de produtos ativos e configura o modo de debug
     
