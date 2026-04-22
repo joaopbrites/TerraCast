@@ -1,21 +1,24 @@
 # TerraCast - Dependências do Sistema (APT)
-# Versões compatíveis com requirements.txt (GDAL==3.10.3, netCDF4==1.7.2, etc)
-# Formato: pacote ou pacote=versão
+# Observação: evitar pinagem rígida de versão para reduzir quebras entre releases Debian.
+# Formato: um pacote por linha.
 
 # Ferramentas Python essenciais
 python3-pip
 python3-venv
 
-# GDAL - IMPORTANTE: versão deve corresponder ao GDAL==3.10.3 do requirements.txt
-libgdal-dev=3.10.3+dfsg-1
-gdal-bin=3.10.3+dfsg-1
-python3-gdal=3.10.3+dfsg-1
+# GDAL (bibliotecas e ferramentas de build/runtime)
+libgdal-dev
+gdal-bin
+python3-gdal
 
 # NetCDF/HDF - bibliotecas para manipulação de dados científicos
-libnetcdf-dev=1:4.9.3-1
-libhdf5-dev=1.14.5+repack-3
-libhdf4-dev=4.3.0-1+b1
+libnetcdf-dev
+libhdf5-dev
+libhdf4-alt-dev
 
 # Geoespacial - dependências para Cartopy, pyproj, shapely
-libgeos-dev=3.13.1-1
-libproj-dev=9.6.0-1
+libgeos-dev
+libproj-dev
+
+# Necessário para compilação do systemd-python (quando usado)
+libsystemd-dev
