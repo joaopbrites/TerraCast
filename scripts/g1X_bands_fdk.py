@@ -40,7 +40,6 @@ import numpy as np                                           # Scientific comput
 import cartopy, cartopy.crs as ccrs                          # Plot maps
 import cartopy.io.shapereader as shpreader                   # Import shapefiles
 import time as t                                             # Time access and conversion
-import sys                                                   # Import the "system specific parameters and functions" module
 import math                                                  # Import math
 import os                                                    # Miscellaneous operating system interfaces
 from os.path import dirname, abspath                         # Return a normalized absolutized version of the pathname path 
@@ -55,9 +54,11 @@ warnings.filterwarnings("ignore")
 #---------------------------------------------------------------------------------------------
 
 def run(CONFIG, product):
-    # configuração do logger
     log = logging.getLogger(f"processment.{__name__}")
-    log.debug(f'Processing {product['name']}, with {product['script']}')
+
+    data_file_name = product.get('dataFileName')
+    if not data_file_name:
+        raise ValueError("product['dataFileName'] is required for module execution")
 
     # Start the time counter
     start:float = t.time()  
@@ -76,19 +77,19 @@ def run(CONFIG, product):
         #print(interval)
         # O prefixo r indica que os codigos de escape na string devem ser ignorados (raw string).
         regex = re.compile(r'(?:s.........' + str(interval) + ')..._')
-        finder = re.findall(regex, product['dataFileName'])
+        finder = re.findall(regex, data_file_name)
         # If "matches" is "0", it is not from a desired interval. If it is "1", process the file	
         matches = len(finder)
         # If it is from a desired minute, exit verification loop
         if (matches == 1): break
     if (matches == 0): # After the loop, if "matches" is "0", the file is not from a desired interval
         print("This file is not from an interval that should be processed. Exiting script.")
-        quit()
+        return
     #---------------------------------------------------------------------------------------------    
 
     # Read the image
     #path = path.replace('//','/')
-    file = Dataset(product['dataFileName'])
+    file = Dataset(data_file_name)
 
     # Read the satellite 
     satellite = getattr(file, 'platform_ID')
@@ -323,7 +324,7 @@ def run(CONFIG, product):
     nfiles = 20
     # Por que dois diretórios de saída?
     # A função update vem de html_update.py
-    update(satellite, productName, nfiles, product['output'], sys.argv[8])
+    update(satellite, productName, nfiles, product['output'], CONFIG['output_vis'])
 
     # Delete aux files
     os.remove(out_dir + plot_config["file_name_id_1"] + "_" + plot_config["file_name_id_2"] + "_" + date_file + '.png')            

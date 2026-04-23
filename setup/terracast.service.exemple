@@ -10,7 +10,7 @@ ExecStart=%VENV_DIR%/bin/python %PROJECT_DIR%/terracast.py
 StandardOutput=journal
 StandardError=journal
 SyslogIdentifier=terracast
-Restart=on-failure
+Restart=always
 RestartSec=10
 
 [Install]
